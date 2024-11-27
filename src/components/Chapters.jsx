@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const Profile = () => {
-  return (
-    <div>Profile</div>
-  )
-}
+const Chapters = () => {
+  return <h2 className="">Chapters Component</h2>;
+};
 
-export default Profile
+export default Chapters;

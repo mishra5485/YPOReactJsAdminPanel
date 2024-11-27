@@ -7,9 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 // import { store , persistor } from "./reducer/persistorStore/reduxstore.js";
 import "./index.css";
 
-
-
-
 // Create a new root element for ReactDOM.createRoot if you're using concurrent mode
 const rootElement = document.getElementById("root");
 
@@ -17,11 +14,11 @@ const rootElement = document.getElementById("root");
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     {/* <Provider store={store}> */}
-      {/* <PersistGate persistor={persistor}> */}
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      {/* </PersistGate> */}
+    {/* <PersistGate persistor={persistor}> */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    {/* </PersistGate> */}
     {/* </Provider> */}
   </React.StrictMode>
 );
