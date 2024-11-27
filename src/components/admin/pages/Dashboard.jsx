@@ -4,12 +4,12 @@ import Sidebar from "./Sidebar";
 
 const Dashboard = () => {
   return (
-    <div className="h-[100%]">
+    <div className="h-[100%] ">
       {/* Sidebar remains fixed on the left */}
       <Sidebar />
 
       {/* Right side displays the nested routes */}
-      <div className="p-4 sm:ml-64">
+      <div className="p-4 sm:ml-72 bg-primaryBg">
         <Outlet />
       </div>
     </div>

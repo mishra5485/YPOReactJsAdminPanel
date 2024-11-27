@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import Registeration from "./components/pages/Registeration";
-import Dashboard from "./components/pages/Dashboard";
-import Chapters from "./components/Chapters";
-import ChapterManager from "./components/ChapterManagers";
-import Request from "./components/Request";
+import Registeration from "./components/admin/pages/Registeration";
+import Dashboard from "./components/admin/pages/Dashboard";
+import AdminChapters from "./components/admin/admin chapters/AdminChapters";
+import ChapterManager from "./components/admin/ChapterManagers";
+import Request from "./components/admin/Request";
 
 function App() {
   return (
@@ -11,9 +11,9 @@ function App() {
       {/* Public routes */}
       <Route path="/" element={<Registeration />} />
 
-      {/* Dashboard with nested routes */}
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="chapters" element={<Chapters />} />
+      {/* Dashboard for admin with nested routes */}
+      <Route path="/superadmin/dashboard" element={<Dashboard />}>
+        <Route path="chapters" element={<AdminChapters />} />
         <Route path="chapterManager" element={<ChapterManager />} />
         <Route path="request" element={<Request />} />
       </Route>

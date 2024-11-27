@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { TiHomeOutline } from "react-icons/ti";
+import { BiBookContent } from "react-icons/bi";
+import { TbUsers } from "react-icons/tb";
+import { PiTelegramLogo } from "react-icons/pi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="overflow-auto ">
+    <div className="overflow-auto bg-primaryBg">
       <button
         data-drawer-target="sidebar-multi-level-sidebar"
         data-drawer-toggle="sidebar-multi-level-sidebar"
@@ -31,43 +34,27 @@ const Sidebar = () => {
       </button>
       <aside
         id="sidebar-multi-level-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform 
+        className={`fixed top-0 left-0 z-40 w-72 h-screen transition-transform 
           ${isOpen ? "translate-x-0" : "-translate-x-full"} 
           sm:translate-x-0`}
         aria-label="SideBar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-Gray85">
-          {/* <div className="flex items-center justify-center my-3 ">
+        <div className="h-full px-3 py-4  overflow-y-auto bg-primaryBg">
+          <div className=" ">
             <NavLink
               //  onClick={handleMenuItemClick}
               to="/superAdmin/dashboard"
               className="flex items-center flex-shrink-0 text-xl text-gray-800 dark:text-gray-200 my-2"
             >
-              <img src={logo} className="h-full mr-5 sm:h-14" alt="Logo" />
+              <img src={"/logo.jpeg"} className="mr-5 sm:w-30" alt="Logo" />
             </NavLink>
-          </div> */}
-          <ul className="space-y-2 font-medium">
-            {/* <NavLink to={"/superAdmin/dashboard"}>
-                <li>
-                  <button
-                    type="button"
-                    className="px-5 flex items-center w-full p-2 border-b-2 pb-4 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    aria-controls="dropdown-example"
-                  >
-                    <GrDocumentUser />
-
-                    <span className="flex-1 ml-3 text-xl text-left  whitespace-nowrap">
-                      DashBoard
-                    </span>
-                  </button>
-                </li>
-              </NavLink> */}
-
-            <NavLink to={"/dashboard"}>
+          </div>
+          <ul className="mt-8 font-medium">
+            <NavLink to={"/superadmin/dashboard"}>
               <li>
                 <button
                   type="button"
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                   aria-controls="dropdown-example"
                 >
                   <TiHomeOutline size={20} />
@@ -79,14 +66,14 @@ const Sidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/dashboard/chapters"}>
+            <NavLink to={"/superadmin/dashboard/chapters"}>
               <li>
                 <button
                   type="button"
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                   aria-controls="dropdown-example"
                 >
-                  <TiHomeOutline size={20} />
+                  <BiBookContent size={20} />
 
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
                     Chapters
@@ -95,14 +82,14 @@ const Sidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/dashboard/chapterManager"}>
+            <NavLink to={"/superadmin/dashboard/chapterManager"}>
               <li>
                 <button
                   type="button"
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                   aria-controls="dropdown-example"
                 >
-                  <TiHomeOutline size={20} />
+                  <TbUsers size={20} />
 
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
                     Chapter Manager
@@ -111,14 +98,14 @@ const Sidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/dashboard/request"}>
+            <NavLink to={"/superadmin/dashboard/request"}>
               <li>
                 <button
                   type="button"
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                   aria-controls="dropdown-example"
                 >
-                  <TiHomeOutline size={20} />
+                  <PiTelegramLogo size={20} />
 
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
                     Request
