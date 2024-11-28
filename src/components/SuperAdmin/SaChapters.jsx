@@ -15,6 +15,9 @@ const SaDashboardDetails = () => {
   const [filteredData, setFilteredData] = useState(records);
   const [isLoading, setisLoading] = useState(false);
 
+  const [chapterName, setChapterName] = useState("");
+  const [chaperLogo, setChapterLogo] = useState();
+
   const [isCreateChapterModalOpen, SetIsCreateChapterModalOpen] =
     useState(false);
   const openCreateChapterModal = () => SetIsCreateChapterModalOpen(true);
@@ -23,6 +26,7 @@ const SaDashboardDetails = () => {
   const [isDeleteModalOpen, SetIsDeleteModalOen] = useState(false);
   const openDeleteChapterModal = () => SetIsDeleteModalOen(true);
   const closeDeleteChapterModal = () => SetIsDeleteModalOen(false);
+
 
   useEffect(() => {
     const filteredItems = records.filter((item) =>
@@ -174,6 +178,71 @@ const SaDashboardDetails = () => {
     },
   ];
 
+  const handleChapterCreationSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!chapterName.trim() || !chaperLogo) {
+      toast.error(`Please Fill all feilds`, {
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("chapter_Name", chapterName);
+    formData.append("ChapterLogoImage", chaperLogo);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/create`,
+        formData
+      );
+
+      console.log(response)
+
+      const responseStatus = response.status;
+      const responseMessage = response.data.message;
+
+      if (responseStatus == 201) {
+        toast.success(responseMessage || "Chapter Created Successfully", {
+          style: { background: "green", color: "white" },
+        });
+        setChapterName("");
+        setChapterLogo(null);
+        getAllChapters();
+        SetIsCreateChapterModalOpen(false);
+      }
+    } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+      const responseStatus = error.response.status;
+      console.log(error);
+
+      setisLoading(false);
+      if (error.response) {
+        if (
+          responseStatus == 404 ||
+          responseStatus == 403 ||
+          responseStatus == 500 ||
+          responseStatus == 302 ||
+          responseStatus == 409 ||
+          responseStatus == 401 ||
+          responseStatus == 400
+        ) {
+          toast.error(`${errorResponseMessage}`, {
+            style: {
+              background: "black",
+              color: "white",
+            },
+          });
+          throw new Error(`API Error: Status ${responseStatus}`);
+        }
+      }
+    }
+  };
+
   return (
     <>
       <Toaster />
@@ -245,62 +314,77 @@ const SaDashboardDetails = () => {
 
             {isCreateChapterModalOpen && (
               <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                 <div
-                id="popup-modal"
-                className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
-              >
-                <div className="relative p-4 w-full max-w-md max-h-full">
-                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    {/* Modal content */}
-                    <div className="p-4 md:p-5 text-center">
-                      <h3 className="mb-5 text-lg font-bold text-xl text-gray-500 dark:text-gray-400">
-                        Create Chapter
-                      </h3>
+                <div
+                  id="popup-modal"
+                  className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+                >
+                  <div className="relative p-4 w-full max-w-md max-h-full">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <form
+                        onSubmit={handleChapterCreationSubmit}
+                        className="p-4 md:p-5 text-center"
+                      >
+                        <h3 className="mb-5 text-lg font-bold text-xl text-gray-500 dark:text-gray-400">
+                          Create Chapter
+                        </h3>
 
-                      {/* Chapter Name Input */}
-                      <div className="mb-4">
-                        <label
-                          htmlFor="chapter-name"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                        {/* Chapter Name Input */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="chapter-name"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Chapter Name*
+                          </label>
+                          <input
+                            type="text"
+                            id="chapter-name"
+                            value={chapterName}
+                            onChange={(e) => setChapterName(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Enter Chapter name"
+                            required
+                          />
+                        </div>
+
+                        {/* Upload Logo Input */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="upload-logo"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left my-2"
+                          >
+                            Upload Logo*
+                          </label>
+                          <input
+                            type="file"
+                            id="upload-logo"
+                            onChange={(e) => setChapterLogo(e.target.files[0])}
+                            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:hover:file:bg-gray-500"
+                            required
+                          />
+                        </div>
+
+                        {/* Buttons */}
+                        <button
+                          type="button"
+                          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          onClick={closeCreateChapterModal}
                         >
-                          Chapter Name
-                        </label>
-                        <input
-                          type="text"
-                          id="chapter-name"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                          placeholder="Enter chapter name"
-                        />
-                      </div>
+                          Cancel
+                        </button>
 
-                      <div className="mb-4">
-                        <label
-                          htmlFor="upload-logo"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left my-2"
+                        <button
+                          type="submit"
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         >
-                          Upload Logo
-                        </label>
-                        <input
-                          type="file"
-                          id="upload-logo"
-                          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:hover:file:bg-gray-500"
-                        />
-                      </div>
-
-                      <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Cancel</button>
-
-                      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
-
-                     
+                          Submit
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
-            
             )}
-
-          
           </>
         )}
       </div>
@@ -310,73 +394,71 @@ const SaDashboardDetails = () => {
 
 export default SaDashboardDetails;
 
-
-
 // {isDeleteModalOpen && (
-  // <div
-  //   id="popup-modal"
-  //   className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
-  // >
-  //   <div className="relative p-4 w-full max-w-md max-h-full">
-  //     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-  //       {/* Close button */}
-  //       <button
-  //         type="button"
-  //         onClick={closeCreateChapterModal}
-  //         className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-  //       >
-  //         <svg
-  //           className="w-3 h-3"
-  //           aria-hidden="true"
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           fill="none"
-  //           viewBox="0 0 14 14"
-  //         >
-  //           <path
-  //             stroke="currentColor"
-  //             strokeLinecap="round"
-  //             strokeLinejoin="round"
-  //             strokeWidth="2"
-  //             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-  //           />
-  //         </svg>
-  //         <span className="sr-only">Close modal</span>
-  //       </button>
+// <div
+//   id="popup-modal"
+//   className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+// >
+//   <div className="relative p-4 w-full max-w-md max-h-full">
+//     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+//       {/* Close button */}
+//       <button
+//         type="button"
+//         onClick={closeCreateChapterModal}
+//         className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+//       >
+//         <svg
+//           className="w-3 h-3"
+//           aria-hidden="true"
+//           xmlns="http://www.w3.org/2000/svg"
+//           fill="none"
+//           viewBox="0 0 14 14"
+//         >
+//           <path
+//             stroke="currentColor"
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="2"
+//             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+//           />
+//         </svg>
+//         <span className="sr-only">Close modal</span>
+//       </button>
 
-  //       {/* Modal content */}
-  //       <div className="p-4 md:p-5 text-center">
-  //         <svg
-  //           className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-  //           aria-hidden="true"
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           fill="none"
-  //           viewBox="0 0 20 20"
-  //         >
-  //           <path
-  //             stroke="currentColor"
-  //             strokeLinecap="round"
-  //             strokeLinejoin="round"
-  //             strokeWidth="2"
-  //             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  //           />
-  //         </svg>
-  //         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-  //           Are you sure you want to delete this product?
-  //         </h3>
-  //         <button
-  //           onClick={closeCreateChapterModal}
-  //           className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-  //         >
-  //           Yes, I'm sure
-  //         </button>
-  //         <button
-  //           onClick={closeCreateChapterModal}
-  //           className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-  //         >
-  //           No, cancel
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div>
+//       {/* Modal content */}
+//       <div className="p-4 md:p-5 text-center">
+//         <svg
+//           className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+//           aria-hidden="true"
+//           xmlns="http://www.w3.org/2000/svg"
+//           fill="none"
+//           viewBox="0 0 20 20"
+//         >
+//           <path
+//             stroke="currentColor"
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="2"
+//             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+//           />
+//         </svg>
+//         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+//           Are you sure you want to delete this product?
+//         </h3>
+//         <button
+//           onClick={closeCreateChapterModal}
+//           className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+//         >
+//           Yes, I'm sure
+//         </button>
+//         <button
+//           onClick={closeCreateChapterModal}
+//           className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+//         >
+//           No, cancel
+//         </button>
+//       </div>
+//     </div>
+//   </div>
+// </div>
 // )}
