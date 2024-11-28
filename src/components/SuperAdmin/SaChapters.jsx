@@ -4,17 +4,10 @@ import DataTable from "react-data-table-component";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { AgencyRegistration } from "../../schemas";
-import { useSelector } from "react-redux";
 import getToken from "../../commonfunctions/getToken";
 
-const initialValues = {
-  Agency_Name: "",
-  Contact_Person: "",
-  Contact_Number: "",
-};
-
-const SaChapters = () => {
-  const userData = useSelector((state) => state.auth.userData);
+const SaDashboardDetails = () => {
+  // const userData = useSelector((state) => state.auth.userData);
 
   const [records, setrecords] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -23,26 +16,28 @@ const SaChapters = () => {
 
   useEffect(() => {
     const filteredItems = records.filter((item) =>
-      item.agency_name.toLowerCase().includes(searchText.toLowerCase())
+      item.chapter_Name.toLowerCase().includes(searchText.toLowerCase())
     );
 
     setFilteredData(filteredItems);
   }, [records, searchText]);
 
   useEffect(() => {
-    getAllAgencies();
+    getAllChapters();
   }, []);
 
-  const getAllAgencies = async () => {
+  const getAllChapters = async () => {
     try {
-      const token = getToken();
       setisLoading(true);
       let response = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/agency/getAll`,
-        token
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/getall`
       );
-      if (response.status === 200) {
-        setrecords(response.data);
+
+      const responseData = response.data.data;
+      const responseStatus = response.status;
+
+      if (responseStatus === 200) {
+        setrecords(responseData);
         setisLoading(false);
       }
     } catch (error) {
@@ -51,13 +46,13 @@ const SaChapters = () => {
       if (error.response) {
         const { status, data } = error.response;
         if (
-          status === 404 ||
-          status === 403 ||
-          status === 500 ||
-          status === 302 ||
-          status === 409 ||
-          status === 401 ||
-          status === 400
+          status == 404 ||
+          status == 403 ||
+          status == 500 ||
+          status == 302 ||
+          status == 409 ||
+          status == 401 ||
+          status == 400
         ) {
           toast.error(data, {
             style: {
@@ -77,146 +72,52 @@ const SaChapters = () => {
 
   const columns = [
     {
-      name: "Agency Name",
+      name: "Chapter Logo",
       selector: (row) => row.agency_name,
       sortable: true,
+      cell: (row) => (
+        <div className="flex justify-center items-center">
+          <img
+            src={`${import.meta.env.VITE_REACT_APP_BASE_URL}/${
+              row.chapter_Logo
+            }`}
+            alt={row.chapter_Name}
+            className="w-12 h-12 rounded-full object-cover"
+          />
+        </div>
+      ),
     },
     {
-      name: "Contact Name",
-      selector: (row) => row.contact_person,
+      name: "Chapter Name",
+      selector: (row) => row.chapter_Name,
     },
-
     {
-      name: "Contact Number",
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+            row.status === 1 ? "bg-green-500" : "bg-gray-500"
+          }`}
+        >
+          {row.status === 1 ? "Active" : "Inactive"}
+        </span>
+      ),
+    },
+    {
+      name: "Region",
+      selector: (row) => row.chapter_Region,
+    },
+    {
+      name: "Operations",
       selector: (row) => row.contact_number,
     },
   ];
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues,
-      validationSchema: AgencyRegistration,
-      onSubmit: async (values, action) => {
-        const payloadData = {
-          Agency_Name: values.Agency_Name,
-          Contact_Person: values.Contact_Person,
-          Contact_Number: values.Contact_Number,
-          CreatedBy: userData.userName,
-        };
-        try {
-          const token = getToken();
-          let response = await axios.post(
-            `${import.meta.env.VITE_REACT_APP_BASE_URL}/agency/register`,
-            payloadData,
-            token
-          );
-          if (response.status === 200) {
-            action.resetForm();
-            getAllAgencies();
-          }
-        } catch (error) {
-          console.log(error);
-          if (error.response) {
-            const { status, data } = error.response;
-            if (
-              status === 404 ||
-              status === 403 ||
-              status === 500 ||
-              status === 302 ||
-              status === 409 ||
-              status === 401 ||
-              status === 400
-            ) {
-              toast.error(data, {
-                style: {
-                  background: "black",
-                  color: "white",
-                },
-              });
-              throw new Error(`API Error: Status ${status}`);
-            }
-          }
-        }
-      },
-    });
 
   return (
     <>
       <Toaster />
       <div className="my-8">
-        <section className="w-full p-6 mx-auto bg-white rounded-md shadow-md max-w-4xl">
-          <form onSubmit={handleSubmit}>
-            <h2 className="mb-4 text-2xl font-bold">Agency Registration</h2>
-            <div className="flex flex-col mb-4">
-              <label htmlFor="Agency_Name" className="mb-2 font-bold">
-                Agency Name
-              </label>
-              <input
-                type="text"
-                autoComplete="off"
-                name="Agency_Name"
-                id="Agency_Name"
-                placeholder="Please enter Agency Name"
-                value={values.Agency_Name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              {errors.Agency_Name && touched.Agency_Name ? (
-                <p className="text-red-600">{errors.Agency_Name}</p>
-              ) : null}
-            </div>
-
-            <div className="flex flex-col mb-4">
-              <label htmlFor="Contact_Person" className="mb-2 font-bold">
-                Contact Person
-              </label>
-              <input
-                type="text"
-                autoComplete="off"
-                name="Contact_Person"
-                id="Contact_Person"
-                placeholder="Please enter Contact Person"
-                value={values.Contact_Person}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              {errors.Contact_Person && touched.Contact_Person ? (
-                <p className="text-red-600">{errors.Contact_Person}</p>
-              ) : null}
-            </div>
-
-            <div className="flex flex-col mb-4">
-              <label htmlFor="Contact_Number" className="mb-2 font-bold">
-                Contact Number
-              </label>
-              <input
-                type="number"
-                autoComplete="off"
-                name="Contact_Number"
-                id="Contact_Number"
-                placeholder="Please enter your Contact Number"
-                value={values.Contact_Number}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              {errors.Contact_Number && touched.Contact_Number ? (
-                <p className="text-red-600">{errors.Contact_Number}</p>
-              ) : null}
-            </div>
-
-            <div className="flex justify-end mt-6">
-              <button
-                className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-sky-400 rounded-md hover:bg-sky-700 focus:outline-none focus:bg-gray-600"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </section>
         {isLoading ? (
           <div className="flex justify-center my-10">
             <div role="status">
@@ -247,11 +148,11 @@ const SaChapters = () => {
                 style={{ justifyContent: "space-between" }}
               >
                 <h5 className="text-lg font-bold mt-2 px-2 py-1 text-left">
-                  Agency Information
+                  Chapters
                 </h5>
                 <input
                   type="text"
-                  placeholder="Search Agency Name"
+                  placeholder="Search Chapter Name"
                   value={searchText}
                   onChange={handleSearch}
                   className="mt-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -267,7 +168,7 @@ const SaChapters = () => {
                 paginationRowsPerPageOptions={[50, 100, 150]}
                 striped
                 highlightonhover
-                noDataComponent="No Spot_Billers Found"
+                noDataComponent="No Chapters Found"
               />
             </div>
           </div>
@@ -277,4 +178,4 @@ const SaChapters = () => {
   );
 };
 
-export default SaChapters;
+export default SaDashboardDetails;
