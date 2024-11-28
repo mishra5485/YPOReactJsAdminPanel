@@ -42,7 +42,6 @@ const Sidebar = () => {
         <div className="h-full px-3 py-4  overflow-y-auto bg-primaryBg">
           <div className=" ">
             <NavLink
-              //  onClick={handleMenuItemClick}
               to="/superAdmin/dashboard"
               className="flex items-center flex-shrink-0 text-xl text-gray-800 dark:text-gray-200 my-2"
             >
@@ -50,7 +49,7 @@ const Sidebar = () => {
             </NavLink>
           </div>
           <ul className="mt-8 font-medium">
-            <NavLink to={"/superadmin/dashboard"}>
+            <NavLink to={"/cp/dashboard/cphome"}>
               <li>
                 <button
                   type="button"
@@ -66,7 +65,7 @@ const Sidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/superadmin/dashboard/chapters"}>
+            <NavLink to={"/cp/dashboard/cpchapters"}>
               <li>
                 <button
                   type="button"
@@ -82,37 +81,7 @@ const Sidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/superadmin/dashboard/chapterManager"}>
-              <li>
-                <button
-                  type="button"
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-example"
-                >
-                  <TbUsers size={20} />
-
-                  <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
-                    Chapter Manager
-                  </span>
-                </button>
-              </li>
-            </NavLink>
-
-            <NavLink to={"/superadmin/dashboard/request"}>
-              <li>
-                <button
-                  type="button"
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-example"
-                >
-                  <PiTelegramLogo size={20} />
-
-                  <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
-                    Request
-                  </span>
-                </button>
-              </li>
-            </NavLink>
+           
           </ul>
         </div>
       </aside>

@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SaSidebar";
 
-const Dashboard = () => {
+const SaDashboard = () => {
   return (
     <div className="h-[100%] ">
       {/* Sidebar remains fixed on the left */}
@@ -16,4 +16,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default SaDashboard;
