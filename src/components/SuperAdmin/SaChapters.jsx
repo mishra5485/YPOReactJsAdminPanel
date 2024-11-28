@@ -7,6 +7,7 @@ import { AgencyRegistration } from "../../schemas";
 import getToken from "../../commonfunctions/getToken";
 import { Status } from "../../commonfunctions/Enums";
 import { MdDeleteForever } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const SaDashboardDetails = () => {
   // const userData = useSelector((state) => state.auth.userData);
@@ -100,15 +101,15 @@ const SaDashboardDetails = () => {
       }
     } catch (error) {
       const errorResponseMessage = error.response.data.message;
-        if (errorResponseMessage) {
-          toast.error(errorResponseMessage || "Something went wrong!", {
-            style: { background: "black", color: "white" },
-          });
-        } else {
-          toast.error("Network error. Please try again.", {
-            style: { background: "black", color: "white" },
-          });
-        }
+      if (errorResponseMessage) {
+        toast.error(errorResponseMessage || "Something went wrong!", {
+          style: { background: "black", color: "white" },
+        });
+      } else {
+        toast.error("Network error. Please try again.", {
+          style: { background: "black", color: "white" },
+        });
+      }
     }
   };
 
@@ -193,37 +194,45 @@ const SaDashboardDetails = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md max-w-7xl mt-5">
-            <div className="p-4 bg-gray-300 border-b border-gray-100 h-100vh">
-              <div
-                className="flex justify-around"
-                style={{ justifyContent: "space-between" }}
-              >
-                <h5 className="text-lg font-bold mt-2 px-2 py-1 text-left">
-                  Chapters
-                </h5>
-                <input
-                  type="text"
-                  placeholder="Search Chapter Name"
-                  value={searchText}
-                  onChange={handleSearch}
-                  className="mt-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+          <>
+           
+            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md max-w-7xl mt-5">
+            <div className="flex flex-row-reverse">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">
+              <MdAdd />
+              </button>
+            </div>
+              <div className="p-4 bg-gray-300 border-b border-gray-100 h-100vh">
+                <div
+                  className="flex justify-around"
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <h5 className="text-lg font-bold mt-2 px-2 py-1 text-left">
+                    Chapters
+                  </h5>
+                  <input
+                    type="text"
+                    placeholder="Search Chapter Name"
+                    value={searchText}
+                    onChange={handleSearch}
+                    className="mt-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div className="p-4">
+                <DataTable
+                  columns={columns}
+                  data={filteredData}
+                  pagination
+                  paginationPerPage={20}
+                  paginationRowsPerPageOptions={[10, 15, 25]}
+                  striped
+                  highlightonhover
+                  noDataComponent="No Chapters Found"
                 />
               </div>
             </div>
-            <div className="p-4">
-              <DataTable
-                columns={columns}
-                data={filteredData}
-                pagination
-                paginationPerPage={20}
-                paginationRowsPerPageOptions={[10, 15, 25]}
-                striped
-                highlightonhover
-                noDataComponent="No Chapters Found"
-              />
-            </div>
-          </div>
+          </>
         )}
       </div>
     </>
