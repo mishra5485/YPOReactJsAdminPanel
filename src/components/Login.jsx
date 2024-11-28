@@ -41,6 +41,9 @@ const Login = () => {
         const responseData = response.data.data;
         const responseStatus = response.status;
         const responseUserRole = response.data.data.Role;
+        const responseMessage = response.data.message;
+
+
 
         if (responseStatus == 200) {
           localStorage.setItem("loginData", JSON.stringify(responseData));
@@ -50,15 +53,14 @@ const Login = () => {
             navigate("/cp/dashboard/cphome");
           }
           resetForm();
-          toast.success("Login successful!", {
+          toast.success(`${responseMessage}`, {
             style: { background: "green", color: "white" },
           });
         }
       } catch (error) {
-        const { response } = error;
-        if (response) {
-          const { status, data: message } = response;
-          toast.error(message || "Something went wrong!", {
+        const errorResponseMessage = error.response.data.message;
+        if (errorResponseMessage) {
+          toast.error(errorResponseMessage || "Something went wrong!", {
             style: { background: "black", color: "white" },
           });
         } else {
