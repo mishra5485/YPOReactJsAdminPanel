@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import Registeration from "./components/Registeration";
+import Login from "./components/Login";
+import { Auth } from "./auth/Auth";
+import PageNotFound from "./components/PageNotFound";
 
 
 import SaDashboard from "./components/SuperAdmin/SaDashboard";
@@ -26,7 +28,8 @@ function App() {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/" element={<Registeration />} />
+      <Route path="/" element={<Login />} />
+      <Route exact path="*" element={<PageNotFound />} />
 
       {/* Dashboard for admin with nested routes */}
       <Route path="/sp/dashboard" element={<SaDashboard />}>
