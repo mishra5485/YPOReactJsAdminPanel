@@ -33,41 +33,31 @@ const Login = () => {
       };
 
       try {
-        const response = await axios.post(
+        const { data, status } = await axios.post(
           `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/login`,
           payloadData
         );
 
-        const responseData = response.data.data;
-        const responseStatus = response.status;
-        const responseUserRole = response.data.data.Role;
-        const responseMessage = response.data.message;
+        const { Role: responseUserRole, message: responseMessage } = data?.data || {};
 
-
-
-        if (responseStatus == 200) {
-          localStorage.setItem("loginData", JSON.stringify(responseData));
-          if (responseUserRole == AccessLevel.SuperAdmin) {
-            navigate("/sp/dashboard/sahome");
-          } else {
-            navigate("/cp/dashboard/cphome");
-          }
-          resetForm();
-          toast.success(`${responseMessage}`, {
-            style: { background: "green", color: "white" },
-          });
+        if (status == 200) {
+          localStorage.setItem("loginData", JSON.stringify(data?.data));
+          const route = responseUserRole == AccessLevel.SuperAdmin
+            ? "/sp/dashboard/sahome"
+            : "/cp/dashboard/cphome";
+            navigate(route);
+            resetForm();
+            toast.success(responseMessage || "Login successful", {
+              style: { background: "green", color: "white" },
+            });
         }
       } catch (error) {
-        const errorResponseMessage = error.response.data.message;
-        if (errorResponseMessage) {
-          toast.error(errorResponseMessage || "Something went wrong!", {
-            style: { background: "black", color: "white" },
-          });
-        } else {
-          toast.error("Network error. Please try again.", {
-            style: { background: "black", color: "white" },
-          });
-        }
+        const errorMessage =
+          error.response?.data?.message || "Something went wrong! Please try again.";
+
+        toast.error(errorMessage, {
+          style: { background: "black", color: "white" },
+        });
       }
     },
   });
