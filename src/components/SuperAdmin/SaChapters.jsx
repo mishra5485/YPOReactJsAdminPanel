@@ -141,8 +141,8 @@ const SaDashboardDetails = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white  w-full p-3 mx-auto rounded-md shadow-md max-w-4xl mt-5">
-            <div className="p-4 bg-gray-300 border-b border-gray-100">
+          <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md max-w-7xl mt-5">
+            <div className="p-4 bg-gray-300 border-b border-gray-100 h-100vh">
               <div
                 className="flex justify-around"
                 style={{ justifyContent: "space-between" }}
