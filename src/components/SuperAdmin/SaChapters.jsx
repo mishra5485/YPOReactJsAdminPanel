@@ -5,6 +5,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { AgencyRegistration } from "../../schemas";
 import getToken from "../../commonfunctions/getToken";
+import { Status } from "../../commonfunctions/Enums";
+import { MdDeleteForever } from "react-icons/md";
 
 const SaDashboardDetails = () => {
   // const userData = useSelector((state) => state.auth.userData);
@@ -35,32 +37,38 @@ const SaDashboardDetails = () => {
 
       const responseData = response.data.data;
       const responseStatus = response.status;
+      const responseMessage = response.data.message;
 
-      if (responseStatus === 200) {
+      if (responseStatus == 200) {
         setrecords(responseData);
         setisLoading(false);
+        toast.success(`${responseMessage}`, {
+          style: { background: "green", color: "white" },
+        });
       }
     } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+      const responseStatus = error.response.status;
       console.log(error);
+
       setisLoading(false);
       if (error.response) {
-        const { status, data } = error.response;
         if (
-          status == 404 ||
-          status == 403 ||
-          status == 500 ||
-          status == 302 ||
-          status == 409 ||
-          status == 401 ||
-          status == 400
+          responseStatus == 404 ||
+          responseStatus == 403 ||
+          responseStatus == 500 ||
+          responseStatus == 302 ||
+          responseStatus == 409 ||
+          responseStatus == 401 ||
+          responseStatus == 400
         ) {
-          toast.error(data, {
+          toast.error(`${errorResponseMessage}`, {
             style: {
               background: "black",
               color: "white",
             },
           });
-          throw new Error(`API Error: Status ${status}`);
+          throw new Error(`API Error: Status ${responseStatus}`);
         }
       }
     }
@@ -68,6 +76,40 @@ const SaDashboardDetails = () => {
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
+  };
+
+  const handleDelete = async (chapter_id) => {
+    try {
+      const payloadData = {
+        chapter_id: chapter_id,
+      };
+
+      let response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/deletebyId`,
+        payloadData
+      );
+
+      const responseStatus = response.status;
+      const responseMessage = response.data.message;
+
+      if (responseStatus == 200) {
+        getAllChapters();
+        toast.success(`${responseMessage}`, {
+          style: { background: "green", color: "white" },
+        });
+      }
+    } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+        if (errorResponseMessage) {
+          toast.error(errorResponseMessage || "Something went wrong!", {
+            style: { background: "black", color: "white" },
+          });
+        } else {
+          toast.error("Network error. Please try again.", {
+            style: { background: "black", color: "white" },
+          });
+        }
+    }
   };
 
   const columns = [
@@ -97,10 +139,10 @@ const SaDashboardDetails = () => {
       cell: (row) => (
         <span
           className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-            row.status === 1 ? "bg-green-500" : "bg-gray-500"
+            row.status == Status.Active ? "bg-green-500" : "bg-gray-500"
           }`}
         >
-          {row.status === 1 ? "Active" : "Inactive"}
+          {row.status == Status.Active ? "Active" : "Inactive"}
         </span>
       ),
     },
@@ -111,6 +153,16 @@ const SaDashboardDetails = () => {
     {
       name: "Operations",
       selector: (row) => row.contact_number,
+      cell: (row) => (
+        <div>
+          <button
+            onClick={() => handleDelete(row._id)} // Pass the _id to the delete function
+            className="text-red-500 hover:text-red-700 "
+          >
+            <MdDeleteForever size={24} />
+          </button>
+        </div>
+      ),
     },
   ];
 
@@ -165,7 +217,7 @@ const SaDashboardDetails = () => {
                 data={filteredData}
                 pagination
                 paginationPerPage={20}
-                paginationRowsPerPageOptions={[50, 100, 150]}
+                paginationRowsPerPageOptions={[10, 15, 25]}
                 striped
                 highlightonhover
                 noDataComponent="No Chapters Found"
