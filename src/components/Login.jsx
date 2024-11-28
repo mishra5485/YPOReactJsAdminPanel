@@ -5,6 +5,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { LoginSchema } from "../schemas";
+import { AccessLevel } from "../commonfunctions/Enums";
 
 const initialValues = {
   MemberId: "",
@@ -14,45 +15,60 @@ const initialValues = {
 const Login = () => {
   const navigate = useNavigate();
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm } =
-    useFormik({
-      initialValues,
-      validationSchema: LoginSchema,
-      onSubmit: async (values) => {
-        const payloadData = {
-          member_id: values.MemberId,
-          password: values.Password,
-        };
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validationSchema: LoginSchema,
+    onSubmit: async (values) => {
+      const payloadData = {
+        member_id: values.MemberId,
+        password: values.Password,
+      };
 
-        try {
-          const { data, status } = await axios.post(
-            `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/login`,
-            payloadData
-          );
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/login`,
+          payloadData
+        );
 
-          if (status == 200) {
-            localStorage.setItem("loginData", JSON.stringify(data));
-            navigate("/dashboard/assignogt");
-            resetForm();
-            toast.success("Login successful!", {
-              style: { background: "green", color: "white" },
-            });
-          }
-        } catch (error) {
-          const { response } = error;
-          if (response) {
-            const { status, data: message } = response;
-            toast.error(message || "Something went wrong!", {
-              style: { background: "black", color: "white" },
-            });
+        const responseData = response.data.data;
+        const responseStatus = response.status;
+        const responseUserRole = response.data.data.Role;
+
+        if (responseStatus == 200) {
+          localStorage.setItem("loginData", JSON.stringify(responseData));
+          if (responseUserRole == AccessLevel.SuperAdmin) {
+            navigate("/sp/dashboard/sahome");
           } else {
-            toast.error("Network error. Please try again.", {
-              style: { background: "black", color: "white" },
-            });
+            navigate("/cp/dashboard/cphome");
           }
+          resetForm();
+          toast.success("Login successful!", {
+            style: { background: "green", color: "white" },
+          });
         }
-      },
-    });
+      } catch (error) {
+        const { response } = error;
+        if (response) {
+          const { status, data: message } = response;
+          toast.error(message || "Something went wrong!", {
+            style: { background: "black", color: "white" },
+          });
+        } else {
+          toast.error("Network error. Please try again.", {
+            style: { background: "black", color: "white" },
+          });
+        }
+      }
+    },
+  });
 
   return (
     <>
@@ -64,8 +80,6 @@ const Login = () => {
           </div>
           <form onSubmit={handleSubmit} className="mt-8">
             <div className="space-y-5">
-           
-
               <div>
                 <label
                   htmlFor="memberId"

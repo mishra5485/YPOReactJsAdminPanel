@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export const LoginSchema = Yup.object({
     MemberId: Yup.string().min(2).max(25).required("Please enter your MemberId"),
-    Password: Yup.string().min(6).required("Please enter your Password"),
+    Password: Yup.string().min(4).required("Please enter your Password"),
 });
 
 const MobileNumberValidation =
