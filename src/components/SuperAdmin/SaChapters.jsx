@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import getToken from "../../commonfunctions/getToken";
 import { Status } from "../../commonfunctions/Enums";
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
