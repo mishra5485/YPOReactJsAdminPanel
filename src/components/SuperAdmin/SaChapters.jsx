@@ -219,22 +219,21 @@ const SaDashboardDetails = () => {
                     Chapters
                   </h5>
                   <div className="flex justify-ceter">
-                  <input
-                    type="text"
-                    placeholder="Search Chapter Name"
-                    value={searchText}
-                    onChange={handleSearch}
-                    className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
-                  />
-                   <button
-                  onClick={() => SetIsCreateChapterModalOpen(true)}
-                  className="block text-white mx-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  type="button"
-                >
-                  <MdAdd size={20} />
-                </button>
+                    <input
+                      type="text"
+                      placeholder="Search Chapter Name"
+                      value={searchText}
+                      onChange={handleSearch}
+                      className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
+                    />
+                    <button
+                      onClick={() => SetIsCreateChapterModalOpen(true)}
+                      className="block text-white mx-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      <MdAdd size={20} />
+                    </button>
                   </div>
-                  
                 </div>
               </div>
 
@@ -262,83 +261,94 @@ const SaDashboardDetails = () => {
                       </th>
                     </tr>
                   </thead>
+
                   <tbody>
-                    {filteredData.map((elem, index) => (
-                      <tr className=" border-b dark:border-gray-700">
-                        <td className="px-6 py-4 font-bold text-base">
-                          {index + 1}
-                        </td>
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    {filteredData.length == 0 ? (
+                      <tr>
+                        <td
+                          className="font-bold text-2xl text-center py-8"
+                          colSpan={7}
                         >
-                          {
-                            <div className="flex justify-start items-start">
-                              <img
-                                src={`${
-                                  import.meta.env.VITE_REACT_APP_BASE_URL
-                                }/${elem.chapter_Logo}`}
-                                alt={elem.chapter_Name}
-                                className="w-12 h-12 rounded-full object-cover"
-                              />
-                            </div>
-                          }
-                        </th>
-                        <td className="px-6 py-4 text-gray-800 text-base">
-                          <button
-                              onClick={() => {
-                                navigate(
-                                  `/sp/dashboard/sachaptermembers/${elem._id}`
-                                );
-                              }}
-                              
-                            >
-                               {elem.chapter_Name}
-                            </button>
-                        </td>
-                        <td className="px-6 py-4">
-                          {
-                            <span
-                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                elem.status == Status.Active
-                                  ? "bg-green-500"
-                                  : "bg-gray-500"
-                              }`}
-                            >
-                              {elem.status == Status.Active
-                                ? "Active"
-                                : "Inactive"}
-                            </span>
-                          }
-                        </td>
-                        <td className="px-6 py-4 text-gray-800 text-base">
-                          {elem.chapter_Region}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div>
-                            <button
-                              onClick={() => {
-                                SetIsDeleteModalOen(true),
-                                  setChapterDeleteId(elem._id);
-                              }}
-                              className="text-red-500 hover:text-red-700 "
-                            >
-                              <MdDeleteForever size={28} />
-                            </button>
-                            <button
-                              onClick={() => {
-                                navigate(
-                                  `/sp/dashboard/sachaptermembers/${elem._id}`
-                                );
-                              }}
-                              className="text-blue-500 hover:text-blue-700 px-3"
-                            >
-                              <MdRemoveRedEye size={28} />
-                            </button>
-                          </div>
+                          <p>No Records Found</p>
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      filteredData.map((elem, index) => (
+                        <tr className=" border-b dark:border-gray-700">
+                          <td className="px-6 py-4 font-bold text-base">
+                            {index + 1}
+                          </td>
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {
+                              <div className="flex justify-start items-start">
+                                <img
+                                  src={`${
+                                    import.meta.env.VITE_REACT_APP_BASE_URL
+                                  }/${elem.chapter_Logo}`}
+                                  alt={elem.chapter_Name}
+                                  className="w-12 h-12 rounded-full object-cover"
+                                />
+                              </div>
+                            }
+                          </th>
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            <button
+                              onClick={() => {
+                                navigate(
+                                  `/sp/dashboard/sachaptermembers/${elem._id}`
+                                );
+                              }}
+                            >
+                              {elem.chapter_Name}
+                            </button>
+                          </td>
+                          <td className="px-6 py-4">
+                            {
+                              <span
+                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                  elem.status == Status.Active
+                                    ? "bg-green-500"
+                                    : "bg-gray-500"
+                                }`}
+                              >
+                                {elem.status == Status.Active
+                                  ? "Active"
+                                  : "Inactive"}
+                              </span>
+                            }
+                          </td>
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            {elem.chapter_Region}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div>
+                              <button
+                                onClick={() => {
+                                  SetIsDeleteModalOen(true),
+                                    setChapterDeleteId(elem._id);
+                                }}
+                                className="text-red-500 hover:text-red-700 "
+                              >
+                                <MdDeleteForever size={28} />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  navigate(
+                                    `/sp/dashboard/sachaptermembers/${elem._id}`
+                                  );
+                                }}
+                                className="text-blue-500 hover:text-blue-700 px-3"
+                              >
+                                <MdRemoveRedEye size={28} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

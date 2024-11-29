@@ -31,8 +31,10 @@ const SaAdminsTable = () => {
   const [isDeleteModalOpen, SetIsDeleteModalOen] = useState(false);
 
   useEffect(() => {
-    const filteredItems = records.filter((item) =>
-      item.userName.toLowerCase().includes(searchText.toLowerCase())
+    const filteredItems = records.filter(
+      (item) =>
+        item.userName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.member_id.toLowerCase().includes(searchText.toLowerCase())
     );
 
     setFilteredData(filteredItems);
@@ -335,98 +337,107 @@ const SaAdminsTable = () => {
                       </th>
                     </tr>
                   </thead>
+
                   <tbody>
-                    {filteredData.map((elem, index) => (
-                      <tr
-                        className=" border-b dark:border-gray-700"
-                        key={index}
-                      >
-                        <td className="px-6 py-4 font-bold text-base">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-4 text-gray-800 text-base">
-                          {elem.member_id}
-                        </td>
-                        <td className="px-6 py-4 text-gray-800 text-base">
-                          <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white">
-                            {elem.Alias}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-gray-800 text-base">
-                          {elem.userName}
-                        </td>
-                        <td className="px-6 py-4">
-                          {
-                            <span
-                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                elem.status == Status.Active
-                                  ? "bg-green-500"
-                                  : "bg-gray-500"
-                              }`}
-                            >
-                              {elem.status == Status.Active
-                                ? "Active"
-                                : "Inactive"}
-                            </span>
-                          }
-                        </td>
-
-                        <td className="px-6 py-4">
-                          <div>
-                            <button
-                              onClick={() => {
-                                SetIsDeleteModalOen(true),
-                                  setUserDeleteId(elem._id);
-                              }}
-                              className="text-white-500 hover:text-white-700 "
-                            >
-                              <div className="bg-blue-400 p-2 border rounded-lg">
-                                <FaArrowUpRightFromSquare
-                                  size={14}
-                                  color="white"
-                                />
-                              </div>
-                            </button>
-                            <button
-                              onClick={() => {
-                                navigate(
-                                  `/sp/dashboard/sachaptermembers/${elem._id}`
-                                );
-                              }}
-                              className="text-white-500 hover:text-white-700 px-3"
-                            >
-                              <div className="bg-blue-400 p-2 border rounded-lg">
-                                <FaDownload size={16} color="white" />
-                              </div>
-                            </button>
-                          </div>
-                        </td>
-
-                        <td className="px-6 py-4">
-                          <div>
-                            <button
-                              onClick={() => {
-                                SetIsDeleteModalOen(true),
-                                  setUserDeleteId(elem._id);
-                              }}
-                              className="text-red-500 hover:text-red-700 "
-                            >
-                              <MdDeleteForever size={28} />
-                            </button>
-                            <button
-                              onClick={() => {
-                                navigate(
-                                  `/sp/dashboard/sachaptermembers/${elem._id}`
-                                );
-                              }}
-                              className="text-blue-500 hover:text-blue-700 px-3"
-                            >
-                              <MdRemoveRedEye size={28} />
-                            </button>
-                          </div>
+                    {filteredData.length == 0 ? (
+                      <tr>
+                        <td className="font-bold text-2xl text-center py-8" colSpan={7}>
+                          <p>No Records Found</p>
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      filteredData.map((elem, index) => (
+                        <tr
+                          className=" border-b dark:border-gray-700"
+                          key={index}
+                        >
+                          <td className="px-6 py-4 font-bold text-base">
+                            {index + 1}
+                          </td>
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            {elem.member_id}
+                          </td>
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white">
+                              {elem.Alias}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            {elem.userName}
+                          </td>
+                          <td className="px-6 py-4">
+                            {
+                              <span
+                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                  elem.status == Status.Active
+                                    ? "bg-green-500"
+                                    : "bg-gray-500"
+                                }`}
+                              >
+                                {elem.status == Status.Active
+                                  ? "Active"
+                                  : "Inactive"}
+                              </span>
+                            }
+                          </td>
+
+                          <td className="px-6 py-4">
+                            <div>
+                              <button
+                                onClick={() => {
+                                  SetIsDeleteModalOen(true),
+                                    setUserDeleteId(elem._id);
+                                }}
+                                className="text-white-500 hover:text-white-700 "
+                              >
+                                <div className="bg-blue-400 p-2 border rounded-lg">
+                                  <FaArrowUpRightFromSquare
+                                    size={14}
+                                    color="white"
+                                  />
+                                </div>
+                              </button>
+                              <button
+                                onClick={() => {
+                                  navigate(
+                                    `/sp/dashboard/sachaptermembers/${elem._id}`
+                                  );
+                                }}
+                                className="text-white-500 hover:text-white-700 px-3"
+                              >
+                                <div className="bg-blue-400 p-2 border rounded-lg">
+                                  <FaDownload size={16} color="white" />
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+
+                          <td className="px-6 py-4">
+                            <div>
+                              <button
+                                onClick={() => {
+                                  SetIsDeleteModalOen(true),
+                                    setUserDeleteId(elem._id);
+                                }}
+                                className="text-red-500 hover:text-red-700 "
+                              >
+                                <MdDeleteForever size={28} />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  navigate(
+                                    `/sp/dashboard/sachaptermembers/${elem._id}`
+                                  );
+                                }}
+                                className="text-blue-500 hover:text-blue-700 px-3"
+                              >
+                                <MdRemoveRedEye size={28} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
