@@ -209,7 +209,7 @@ const SaDashboardDetails = () => {
           </div>
         ) : (
           <>
-            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md">
+            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md min-h-screen">
               <div className="mt-10 border-b border-gray-100 h-100vh">
                 <div
                   className="flex justify-around my-5"
