@@ -183,17 +183,7 @@ const SaDashboardDetails = () => {
     }
   };
 
-  const customStyles = {
-    headCells: {
-      style: {
-        backgroundColor: "#f5f5f5",
-        color: "#333",
-        fontWeight: "semi-bold",
-        textAlign: "center",
-        fontSize: "16px",
-      },
-    },
-  };
+
 
   return (
     <>
@@ -230,7 +220,7 @@ const SaDashboardDetails = () => {
                   className="block text-white my-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   type="button"
                 >
-                  <MdAdd />
+                  <MdAdd size={24} />
                 </button>
               </div>
               <div className="p-4 bg-gray-300 border-b border-gray-100 h-100vh">
