@@ -274,7 +274,7 @@ const SaDashboardDetails = () => {
                       </tr>
                     ) : (
                       filteredData.map((elem, index) => (
-                        <tr className=" border-b dark:border-gray-700">
+                        <tr className=" border-b dark:border-gray-700" key={index}>
                           <td className="px-6 py-4 font-bold text-base">
                             {index + 1}
                           </td>
