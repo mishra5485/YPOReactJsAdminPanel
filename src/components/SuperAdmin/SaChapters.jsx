@@ -4,10 +4,12 @@ import DataTable from "react-data-table-component";
 import toast, { Toaster } from "react-hot-toast";
 import getToken from "../../commonfunctions/getToken";
 import { Status } from "../../commonfunctions/Enums";
-import { MdDeleteForever } from "react-icons/md";
-import { MdAdd } from "react-icons/md";
+import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const SaDashboardDetails = () => {
+  const navigate = useNavigate();
+
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
 
@@ -245,6 +247,14 @@ const SaDashboardDetails = () => {
             className="text-red-500 hover:text-red-700 "
           >
             <MdDeleteForever size={28} />
+          </button>
+          <button
+            onClick={() => {
+              navigate(`/sp/dashboard/sachaptermembers/${row._id}`);
+            }}
+            className="text-blue-500 hover:text-blue-700 px-3"
+          >
+            <MdRemoveRedEye size={28} />
           </button>
         </div>
       ),
