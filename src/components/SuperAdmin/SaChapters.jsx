@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
 import toast, { Toaster } from "react-hot-toast";
 import getToken from "../../commonfunctions/getToken";
 import { Status } from "../../commonfunctions/Enums";
@@ -183,8 +182,6 @@ const SaDashboardDetails = () => {
     }
   };
 
-
-
   return (
     <>
       <Toaster />
@@ -214,7 +211,7 @@ const SaDashboardDetails = () => {
         ) : (
           <>
             <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md max-w-7xl mt-5">
-              <div className="flex flex-row-reverse">
+              {/* <div className="flex flex-row-reverse">
                 <button
                   onClick={() => SetIsCreateChapterModalOpen(true)}
                   className="block text-white my-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -222,31 +219,41 @@ const SaDashboardDetails = () => {
                 >
                   <MdAdd size={24} />
                 </button>
-              </div>
-              <div className="p-4 bg-gray-300 border-b border-gray-100 h-100vh">
+              </div> */}
+              <div className="p-4 border-b border-gray-100 h-100vh">
                 <div
-                  className="flex justify-around"
+                  className="flex justify-around my-5"
                   style={{ justifyContent: "space-between" }}
                 >
                   <h5 className="text-2xl font-bold mt-2 px-2 py-1 text-left">
                     Chapters
                   </h5>
+                  <div className="flex justify-ceter">
                   <input
                     type="text"
                     placeholder="Search Chapter Name"
                     value={searchText}
                     onChange={handleSearch}
-                    className="mt-2 px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
                   />
+                   <button
+                  onClick={() => SetIsCreateChapterModalOpen(true)}
+                  className="block text-white mx-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  type="button"
+                >
+                  <MdAdd size={20} />
+                </button>
+                  </div>
+                  
                 </div>
               </div>
 
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                    <th scope="col" class="px-6 py-8 text-base">
-                       #
+                      <th scope="col" class="px-6 py-8 text-base">
+                        #
                       </th>
                       <th scope="col" class="px-6 py-3 text-base">
                         Chapter Logo
@@ -267,8 +274,10 @@ const SaDashboardDetails = () => {
                   </thead>
                   <tbody>
                     {filteredData.map((elem, index) => (
-                      <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <td class="px-6 py-4 font-bold text-base">{index +1}</td>
+                      <tr class=" border-b dark:border-gray-700">
+                        <td class="px-6 py-4 font-bold text-base">
+                          {index + 1}
+                        </td>
                         <th
                           scope="row"
                           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -285,7 +294,9 @@ const SaDashboardDetails = () => {
                             </div>
                           }
                         </th>
-                        <td class="px-6 py-4 text-gray-800 text-base">{elem.chapter_Name}</td>
+                        <td class="px-6 py-4 text-gray-800 text-base">
+                          {elem.chapter_Name}
+                        </td>
                         <td class="px-6 py-4">
                           {
                             <span
@@ -301,13 +312,15 @@ const SaDashboardDetails = () => {
                             </span>
                           }
                         </td>
-                        <td class="px-6 py-4 text-gray-800 text-base">{elem.chapter_Region}</td>
+                        <td class="px-6 py-4 text-gray-800 text-base">
+                          {elem.chapter_Region}
+                        </td>
                         <td class="px-6 py-4">
                           <div>
                             <button
                               onClick={() => {
                                 SetIsDeleteModalOen(true),
-                                  setChapterDeleteId(row._id);
+                                  setChapterDeleteId(elem._id);
                               }}
                               className="text-red-500 hover:text-red-700 "
                             >
@@ -316,7 +329,7 @@ const SaDashboardDetails = () => {
                             <button
                               onClick={() => {
                                 navigate(
-                                  `/sp/dashboard/sachaptermembers/${row._id}`
+                                  `/sp/dashboard/sachaptermembers/${elem._id}`
                                 );
                               }}
                               className="text-blue-500 hover:text-blue-700 px-3"
