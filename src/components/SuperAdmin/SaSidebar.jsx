@@ -7,6 +7,10 @@ import { PiTelegramLogo } from "react-icons/pi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className="overflow-auto bg-primaryBg">
       <button
@@ -15,7 +19,7 @@ const Sidebar = () => {
         aria-controls="sidebar-multi-level-sidebar"
         type="button"
         className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
-        // onClick={toggleSidebar}
+        onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
         <svg
