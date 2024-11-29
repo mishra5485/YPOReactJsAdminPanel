@@ -295,7 +295,16 @@ const SaDashboardDetails = () => {
                           }
                         </th>
                         <td class="px-6 py-4 text-gray-800 text-base">
-                          {elem.chapter_Name}
+                          <button
+                              onClick={() => {
+                                navigate(
+                                  `/sp/dashboard/sachaptermembers/${elem._id}`
+                                );
+                              }}
+                              
+                            >
+                               {elem.chapter_Name}
+                            </button>
                         </td>
                         <td class="px-6 py-4">
                           {
