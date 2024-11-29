@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { Status } from "../../commonfunctions/Enums";
+import { AccessLevel, Status } from "../../commonfunctions/Enums";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
@@ -189,7 +189,7 @@ const SaAdminsTable = () => {
       member_id: member_id,
       accessLevel: userRole,
       userName: username,
-      Chapters:selectedChapter
+      Chapters: selectedChapter,
     };
 
     console.log(payload);
@@ -337,7 +337,10 @@ const SaAdminsTable = () => {
                   </thead>
                   <tbody>
                     {filteredData.map((elem, index) => (
-                      <tr className=" border-b dark:border-gray-700" key={index}>
+                      <tr
+                        className=" border-b dark:border-gray-700"
+                        key={index}
+                      >
                         <td className="px-6 py-4 font-bold text-base">
                           {index + 1}
                         </td>
@@ -509,27 +512,28 @@ const SaAdminsTable = () => {
                           </select>
                         </div>
 
-                        {/* Chapter Selection */}
-                        <div className="mb-4">
-                          <label
-                            htmlFor="chapter_select"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
-                          >
-                            Chapter*
-                          </label>
-                          <Select
-                            styles={dropdownStyles}
-                            options={chaptersData.map((data) => ({
-                              value: data._id,
-                              label: data.chapter_Name,
-                            }))}
-                            value={selectedChapter}
-                            onChange={setSelectedChapter}
-                            placeholder="Select Chapter"
-                            isClearable
-                            isMulti
-                          />
-                        </div>
+                        {userRole != AccessLevel.SuperAdmin ? (
+                          <div className="mb-4">
+                            <label
+                              htmlFor="chapter_select"
+                              className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                            >
+                              Chapter*
+                            </label>
+                            <Select
+                              styles={dropdownStyles}
+                              options={chaptersData.map((data) => ({
+                                value: data._id,
+                                label: data.chapter_Name,
+                              }))}
+                              value={selectedChapter}
+                              onChange={setSelectedChapter}
+                              placeholder="Select Chapter"
+                              isClearable
+                              isMulti
+                            />
+                          </div>
+                        ) : null}
 
                         {/* Buttons */}
                         <button
