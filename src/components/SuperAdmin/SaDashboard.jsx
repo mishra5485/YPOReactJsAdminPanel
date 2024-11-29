@@ -22,7 +22,7 @@ const SaDashboard = () => {
             
           </div>
           <Link to="/sp/dashboard/saprofile">
-          <div className="p-4 mx-8 border rounded-full shadow-md">
+          <div className="p-4 border rounded-full shadow-md">
           <FaUser size={28}/>
           </div>
           </Link>
