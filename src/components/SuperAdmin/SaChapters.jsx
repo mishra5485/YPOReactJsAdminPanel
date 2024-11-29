@@ -13,8 +13,6 @@ const SaDashboardDetails = () => {
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
 
-  console.log("Rendered");
-
   const [searchText, setSearchText] = useState("");
   const [chapterName, setChapterName] = useState("");
   const [chapterDeleteId, setChapterDeleteId] = useState("");
@@ -197,70 +195,6 @@ const SaDashboardDetails = () => {
     },
   };
 
-  const columns = [
-    {
-      name: "Chapter Logo",
-      selector: (row) => row.agency_name,
-      sortable: true,
-      cell: (row) => (
-        <div className="flex justify-center items-center">
-          <img
-            src={`${import.meta.env.VITE_REACT_APP_BASE_URL}/${
-              row.chapter_Logo
-            }`}
-            alt={row.chapter_Name}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-        </div>
-      ),
-    },
-    {
-      name: "Chapter Name",
-      selector: (row) => row.chapter_Name,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      cell: (row) => (
-        <span
-          className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-            row.status == Status.Active ? "bg-green-500" : "bg-gray-500"
-          }`}
-        >
-          {row.status == Status.Active ? "Active" : "Inactive"}
-        </span>
-      ),
-    },
-    {
-      name: "Region",
-      selector: (row) => row.chapter_Region,
-    },
-    {
-      name: "Operations",
-      selector: (row) => row.contact_number,
-      cell: (row) => (
-        <div>
-          <button
-            onClick={() => {
-              SetIsDeleteModalOen(true), setChapterDeleteId(row._id);
-            }}
-            className="text-red-500 hover:text-red-700 "
-          >
-            <MdDeleteForever size={28} />
-          </button>
-          <button
-            onClick={() => {
-              navigate(`/sp/dashboard/sachaptermembers/${row._id}`);
-            }}
-            className="text-blue-500 hover:text-blue-700 px-3"
-          >
-            <MdRemoveRedEye size={28} />
-          </button>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <>
       <Toaster />
@@ -316,18 +250,95 @@ const SaDashboardDetails = () => {
                   />
                 </div>
               </div>
-              <div className="p-4">
-                <DataTable
-                  columns={columns}
-                  data={filteredData}
-                  pagination
-                  paginationPerPage={20}
-                  paginationRowsPerPageOptions={[10, 15, 25]}
-                  striped
-                  highlightonhover
-                  customStyles={customStyles}
-                  noDataComponent="No Chapters Found"
-                />
+
+              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                    <th scope="col" class="px-6 py-8 text-base">
+                       #
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-base">
+                        Chapter Logo
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-base">
+                        Chapter Name
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-base">
+                        Status
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-base">
+                        Region
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-base">
+                        Operations
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((elem, index) => (
+                      <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <td class="px-6 py-4 font-bold text-base">{index +1}</td>
+                        <th
+                          scope="row"
+                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {
+                            <div className="flex justify-start items-start">
+                              <img
+                                src={`${
+                                  import.meta.env.VITE_REACT_APP_BASE_URL
+                                }/${elem.chapter_Logo}`}
+                                alt={elem.chapter_Name}
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                            </div>
+                          }
+                        </th>
+                        <td class="px-6 py-4 text-gray-800 text-base">{elem.chapter_Name}</td>
+                        <td class="px-6 py-4">
+                          {
+                            <span
+                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                elem.status == Status.Active
+                                  ? "bg-green-500"
+                                  : "bg-gray-500"
+                              }`}
+                            >
+                              {elem.status == Status.Active
+                                ? "Active"
+                                : "Inactive"}
+                            </span>
+                          }
+                        </td>
+                        <td class="px-6 py-4 text-gray-800 text-base">{elem.chapter_Region}</td>
+                        <td class="px-6 py-4">
+                          <div>
+                            <button
+                              onClick={() => {
+                                SetIsDeleteModalOen(true),
+                                  setChapterDeleteId(row._id);
+                              }}
+                              className="text-red-500 hover:text-red-700 "
+                            >
+                              <MdDeleteForever size={28} />
+                            </button>
+                            <button
+                              onClick={() => {
+                                navigate(
+                                  `/sp/dashboard/sachaptermembers/${row._id}`
+                                );
+                              }}
+                              className="text-blue-500 hover:text-blue-700 px-3"
+                            >
+                              <MdRemoveRedEye size={28} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
 
