@@ -185,9 +185,9 @@ const SaDashboardDetails = () => {
   return (
     <>
       <Toaster />
-      <div className="my-8">
+      <div>
         {isLoading ? (
-          <div className="flex justify-center my-10">
+          <div className="flex justify-center">
             <div role="status">
               <svg
                 aria-hidden="true"
@@ -210,7 +210,7 @@ const SaDashboardDetails = () => {
           </div>
         ) : (
           <>
-            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md max-w-7xl mt-5">
+            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md">
               {/* <div className="flex flex-row-reverse">
                 <button
                   onClick={() => SetIsCreateChapterModalOpen(true)}
@@ -220,7 +220,7 @@ const SaDashboardDetails = () => {
                   <MdAdd size={24} />
                 </button>
               </div> */}
-              <div className="p-4 border-b border-gray-100 h-100vh">
+              <div className="mt-10 border-b border-gray-100 h-100vh">
                 <div
                   className="flex justify-around my-5"
                   style={{ justifyContent: "space-between" }}
