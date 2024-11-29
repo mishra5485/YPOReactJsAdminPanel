@@ -9,7 +9,7 @@ const SaDashboard = () => {
       <Sidebar />
 
       {/* Right side displays the nested routes */}
-      <div className="p-4 sm:ml-72">
+      <div className="p-4 sm:ml-72 h-[100vh]">
         <Outlet />
       </div>
     </div>
