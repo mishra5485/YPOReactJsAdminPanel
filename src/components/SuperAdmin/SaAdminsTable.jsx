@@ -46,7 +46,7 @@ const SaAdminsTable = () => {
 
   useEffect(() => {
     if (isCreateUserModalOpen) {
-      getAllChapters();
+      getAllDropdownChapters();
     }
   }, [isCreateUserModalOpen]);
 
@@ -94,7 +94,7 @@ const SaAdminsTable = () => {
     }
   };
 
-  const getAllChapters = async () => {
+  const getAllDropdownChapters = async () => {
     toast.dismiss();
     try {
       let response = await axios.get(
@@ -187,61 +187,68 @@ const SaAdminsTable = () => {
       return;
     }
 
+    let updatedChaptersArray;
+    if (selectedChapter) {
+      updatedChaptersArray = selectedChapter.map((chapter) => {
+        return {
+          chapter_id: chapter.value,
+        };
+      });
+    }
+
     const payload = {
       member_id: member_id,
       accessLevel: userRole,
       userName: username,
-      Chapters: selectedChapter,
     };
 
-    console.log(payload);
+    if (updatedChaptersArray.length > 0) {
+      payload.Chapters = updatedChaptersArray;
+    }
 
-    // try {
-    //   const response = await axios.post(
-    //     `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/create`,
-    //     formData
-    //   );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/create`,
+        payload
+      );
+      const responseMessage = response.data.message;
 
-    //   console.log(response);
+      toast.success(responseMessage || "User Created Successfully", {
+        style: { background: "green", color: "white" },
+      });
+      setMember_id("");
+      setUsername("");
+      setUserRole(null);
+      setSelectedChapter([]);
 
-    //   const responseStatus = response.status;
-    //   const responseMessage = response.data.message;
+      getAllSuperAdmins();
+      SetIsCreateUserModalOpen(false);
+    } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+      const responseStatus = error.response.status;
+      console.log(error);
 
-    //   if (responseStatus == 201) {
-    //     toast.success(responseMessage || "Chapter Created Successfully", {
-    //       style: { background: "green", color: "white" },
-    //     });
-    //     setChapterName("");
-    //     setChapterLogo(null);
-    //     getAllSuperAdmins();
-    //     SetIsCreateUserModalOpen(false);
-    //   }
-    // } catch (error) {
-    //   const errorResponseMessage = error.response.data.message;
-    //   const responseStatus = error.response.status;
-    //   console.log(error);
-
-    //   setisLoading(false);
-    //   if (error.response) {
-    //     if (
-    //       responseStatus == 404 ||
-    //       responseStatus == 403 ||
-    //       responseStatus == 500 ||
-    //       responseStatus == 302 ||
-    //       responseStatus == 409 ||
-    //       responseStatus == 401 ||
-    //       responseStatus == 400
-    //     ) {
-    //       toast.error(`${errorResponseMessage}`, {
-    //         style: {
-    //           background: "black",
-    //           color: "white",
-    //         },
-    //       });
-    //       throw new Error(`API Error: Status ${responseStatus}`);
-    //     }
-    //   }
-    // }
+      setisLoading(false);
+      if (error.response) {
+        if (
+          responseStatus == 404 ||
+          responseStatus == 403 ||
+          responseStatus == 500 ||
+          responseStatus == 302 ||
+          responseStatus == 409 ||
+          responseStatus == 401 ||
+          responseStatus == 400
+        ) {
+          toast.error(`${errorResponseMessage}`, {
+            style: {
+              background: "black",
+              color: "white",
+            },
+          });
+          throw new Error(`API Error: Status ${responseStatus}`);
+        }
+      }
+    }
   };
 
   const dropdownStyles = {
@@ -250,7 +257,7 @@ const SaAdminsTable = () => {
       ...styles,
       maxHeight: "170px",
       overflowY: "auto",
-      "text-align": "left",
+      textAlign: "left",
     }),
   };
 
@@ -341,7 +348,10 @@ const SaAdminsTable = () => {
                   <tbody>
                     {filteredData.length == 0 ? (
                       <tr>
-                        <td className="font-bold text-2xl text-center py-8" colSpan={7}>
+                        <td
+                          className="font-bold text-2xl text-center py-8"
+                          colSpan={7}
+                        >
                           <p>No Records Found</p>
                         </td>
                       </tr>

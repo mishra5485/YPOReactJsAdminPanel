@@ -5,7 +5,7 @@ import { Status } from "../../commonfunctions/Enums";
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const SaDashboardDetails = () => {
+const SaChapters = () => {
   const navigate = useNavigate();
 
   const [records, setrecords] = useState([]);
@@ -509,4 +509,4 @@ const SaDashboardDetails = () => {
   );
 };
 
-export default SaDashboardDetails;
+export default SaChapters;
