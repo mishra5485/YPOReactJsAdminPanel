@@ -190,7 +190,7 @@ const SaDashboardDetails = () => {
             <div role="status">
               <svg
                 aria-hidden="true"
-                class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +204,7 @@ const SaDashboardDetails = () => {
                   fill="currentFill"
                 />
               </svg>
-              <span class="sr-only">Loading...</span>
+              <span className="sr-only">Loading...</span>
             </div>
           </div>
         ) : (
@@ -238,39 +238,39 @@ const SaDashboardDetails = () => {
                 </div>
               </div>
 
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="px-6 py-8 text-base">
+                      <th scope="col" className="px-6 py-8 text-base">
                         #
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Chapter Logo
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Chapter Name
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Status
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Region
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Operations
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredData.map((elem, index) => (
-                      <tr class=" border-b dark:border-gray-700">
-                        <td class="px-6 py-4 font-bold text-base">
+                      <tr className=" border-b dark:border-gray-700">
+                        <td className="px-6 py-4 font-bold text-base">
                           {index + 1}
                         </td>
                         <th
                           scope="row"
-                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {
                             <div className="flex justify-start items-start">
@@ -284,7 +284,7 @@ const SaDashboardDetails = () => {
                             </div>
                           }
                         </th>
-                        <td class="px-6 py-4 text-gray-800 text-base">
+                        <td className="px-6 py-4 text-gray-800 text-base">
                           <button
                               onClick={() => {
                                 navigate(
@@ -296,7 +296,7 @@ const SaDashboardDetails = () => {
                                {elem.chapter_Name}
                             </button>
                         </td>
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                           {
                             <span
                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
@@ -311,10 +311,10 @@ const SaDashboardDetails = () => {
                             </span>
                           }
                         </td>
-                        <td class="px-6 py-4 text-gray-800 text-base">
+                        <td className="px-6 py-4 text-gray-800 text-base">
                           {elem.chapter_Region}
                         </td>
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                           <div>
                             <button
                               onClick={() => {

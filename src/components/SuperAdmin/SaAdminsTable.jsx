@@ -3,6 +3,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Status } from "../../commonfunctions/Enums";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
@@ -14,14 +15,19 @@ const SaAdminsTable = () => {
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
 
+  const [chaptersData, setChaptersData] = useState([]);
+
   const [searchText, setSearchText] = useState("");
-  const [chapterName, setChapterName] = useState("");
-  const [chapterDeleteId, setChapterDeleteId] = useState("");
-  const [chaperLogo, setChapterLogo] = useState();
+
+  const [member_id, setMember_id] = useState("");
+  const [username, setUsername] = useState("");
+  const [userRole, setUserRole] = useState();
+  const [selectedChapter, setSelectedChapter] = useState([]);
+
+  const [userDeleteId, setUserDeleteId] = useState("");
 
   const [isLoading, setisLoading] = useState(false);
-  const [isCreateChapterModalOpen, SetIsCreateChapterModalOpen] =
-    useState(false);
+  const [isCreateUserModalOpen, SetIsCreateUserModalOpen] = useState(false);
   const [isDeleteModalOpen, SetIsDeleteModalOen] = useState(false);
 
   useEffect(() => {
@@ -36,6 +42,12 @@ const SaAdminsTable = () => {
     getAllSuperAdmins();
   }, []);
 
+  useEffect(() => {
+    if (isCreateUserModalOpen) {
+      getAllChapters();
+    }
+  }, [isCreateUserModalOpen]);
+
   const getAllSuperAdmins = async () => {
     toast.dismiss();
     try {
@@ -45,9 +57,6 @@ const SaAdminsTable = () => {
       );
 
       const responseData = response.data.data;
-
-      console.log(responseData);
-
       const responseStatus = response.status;
       const responseMessage = response.data.message;
 
@@ -83,88 +92,25 @@ const SaAdminsTable = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  const handleDelete = async () => {
+  const getAllChapters = async () => {
     toast.dismiss();
-
     try {
-      const payloadData = {
-        chapter_id: chapterDeleteId,
-      };
-
-      let response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/deletebyId`,
-        payloadData
+      let response = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/getall`
       );
 
-      const responseMessage = response.data.message;
-
-      SetIsDeleteModalOen(false);
-      setChapterDeleteId("");
-      getAllSuperAdmins();
-      toast.success(`${responseMessage}`, {
-        style: { background: "green", color: "white" },
-      });
-    } catch (error) {
-      const errorResponseMessage = error.response.data.message;
-      if (errorResponseMessage) {
-        toast.error(errorResponseMessage || "Something went wrong!", {
-          style: { background: "black", color: "white" },
-        });
-      } else {
-        toast.error("Network error. Please try again.", {
-          style: { background: "black", color: "white" },
-        });
-      }
-    }
-  };
-
-  const handleChapterCreationSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!chapterName.trim() || !chaperLogo) {
-      toast.error(`Please Fill all feilds`, {
-        style: {
-          background: "black",
-          color: "white",
-        },
-      });
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("chapter_Name", chapterName);
-    formData.append("ChapterLogoImage", chaperLogo);
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/create`,
-        formData
-      );
-
-      console.log(response);
-
+      const responseData = response.data.data;
       const responseStatus = response.status;
       const responseMessage = response.data.message;
 
-      if (responseStatus == 201) {
-        toast.success(responseMessage || "Chapter Created Successfully", {
-          style: { background: "green", color: "white" },
-        });
-        setChapterName("");
-        setChapterLogo(null);
-        getAllSuperAdmins();
-        SetIsCreateChapterModalOpen(false);
+      if (responseStatus == 200) {
+        setChaptersData(responseData);
       }
     } catch (error) {
       const errorResponseMessage = error.response.data.message;
       const responseStatus = error.response.status;
       console.log(error);
-
-      setisLoading(false);
+      setChaptersData([]);
       if (error.response) {
         if (
           responseStatus == 404 ||
@@ -187,6 +133,125 @@ const SaAdminsTable = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleDelete = async () => {
+    toast.dismiss();
+
+    try {
+      const payloadData = {
+        chapter_id: userDeleteId,
+      };
+
+      let response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/deletebyId`,
+        payloadData
+      );
+
+      const responseMessage = response.data.message;
+
+      SetIsDeleteModalOen(false);
+      setUserDeleteId("");
+      getAllSuperAdmins();
+      toast.success(`${responseMessage}`, {
+        style: { background: "green", color: "white" },
+      });
+    } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+      if (errorResponseMessage) {
+        toast.error(errorResponseMessage || "Something went wrong!", {
+          style: { background: "black", color: "white" },
+        });
+      } else {
+        toast.error("Network error. Please try again.", {
+          style: { background: "black", color: "white" },
+        });
+      }
+    }
+  };
+
+  const handleUserCreationSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!member_id || !username || !userRole) {
+      toast.error(`Please Fill all feilds`, {
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    const payload = {
+      member_id: member_id,
+      accessLevel: userRole,
+      userName: username,
+      Chapters:selectedChapter
+    };
+
+    console.log(payload);
+
+    // try {
+    //   const response = await axios.post(
+    //     `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/create`,
+    //     formData
+    //   );
+
+    //   console.log(response);
+
+    //   const responseStatus = response.status;
+    //   const responseMessage = response.data.message;
+
+    //   if (responseStatus == 201) {
+    //     toast.success(responseMessage || "Chapter Created Successfully", {
+    //       style: { background: "green", color: "white" },
+    //     });
+    //     setChapterName("");
+    //     setChapterLogo(null);
+    //     getAllSuperAdmins();
+    //     SetIsCreateUserModalOpen(false);
+    //   }
+    // } catch (error) {
+    //   const errorResponseMessage = error.response.data.message;
+    //   const responseStatus = error.response.status;
+    //   console.log(error);
+
+    //   setisLoading(false);
+    //   if (error.response) {
+    //     if (
+    //       responseStatus == 404 ||
+    //       responseStatus == 403 ||
+    //       responseStatus == 500 ||
+    //       responseStatus == 302 ||
+    //       responseStatus == 409 ||
+    //       responseStatus == 401 ||
+    //       responseStatus == 400
+    //     ) {
+    //       toast.error(`${errorResponseMessage}`, {
+    //         style: {
+    //           background: "black",
+    //           color: "white",
+    //         },
+    //       });
+    //       throw new Error(`API Error: Status ${responseStatus}`);
+    //     }
+    //   }
+    // }
+  };
+
+  const dropdownStyles = {
+    control: (styles) => ({ ...styles, marginBottom: "1rem" }),
+    menuList: (styles) => ({
+      ...styles,
+      maxHeight: "170px",
+      overflowY: "auto",
+      "text-align": "left",
+    }),
+  };
+
   return (
     <>
       <Toaster />
@@ -196,7 +261,7 @@ const SaAdminsTable = () => {
             <div role="status">
               <svg
                 aria-hidden="true"
-                class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +275,7 @@ const SaAdminsTable = () => {
                   fill="currentFill"
                 />
               </svg>
-              <span class="sr-only">Loading...</span>
+              <span className="sr-only">Loading...</span>
             </div>
           </div>
         ) : (
@@ -233,7 +298,7 @@ const SaAdminsTable = () => {
                       className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
                     />
                     <button
-                      onClick={() => SetIsCreateChapterModalOpen(true)}
+                      onClick={() => SetIsCreateUserModalOpen(true)}
                       className="block text-white mx-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       type="button"
                     >
@@ -243,52 +308,51 @@ const SaAdminsTable = () => {
                 </div>
               </div>
 
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="px-6 py-8 text-base">
+                      <th scope="col" className="px-6 py-8 text-base">
                         #
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         MemberId
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Role
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         User
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Status
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Card
                       </th>
-                      <th scope="col" class="px-6 py-3 text-base">
+                      <th scope="col" className="px-6 py-3 text-base">
                         Operations
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredData.map((elem, index) => (
-                      <tr class=" border-b dark:border-gray-700">
-                        <td class="px-6 py-4 font-bold text-base">
+                      <tr className=" border-b dark:border-gray-700" key={index}>
+                        <td className="px-6 py-4 font-bold text-base">
                           {index + 1}
                         </td>
-                        <td class="px-6 py-4 text-gray-800 text-base">
+                        <td className="px-6 py-4 text-gray-800 text-base">
                           {elem.member_id}
                         </td>
-                        <td class="px-6 py-4 text-gray-800 text-base">
+                        <td className="px-6 py-4 text-gray-800 text-base">
                           <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white">
-
-                          {elem.Alias}
+                            {elem.Alias}
                           </span>
                         </td>
-                        <td class="px-6 py-4 text-gray-800 text-base">
+                        <td className="px-6 py-4 text-gray-800 text-base">
                           {elem.userName}
                         </td>
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                           {
                             <span
                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
@@ -304,12 +368,12 @@ const SaAdminsTable = () => {
                           }
                         </td>
 
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                           <div>
                             <button
                               onClick={() => {
                                 SetIsDeleteModalOen(true),
-                                  setChapterDeleteId(elem._id);
+                                  setUserDeleteId(elem._id);
                               }}
                               className="text-white-500 hover:text-white-700 "
                             >
@@ -335,12 +399,12 @@ const SaAdminsTable = () => {
                           </div>
                         </td>
 
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                           <div>
                             <button
                               onClick={() => {
                                 SetIsDeleteModalOen(true),
-                                  setChapterDeleteId(elem._id);
+                                  setUserDeleteId(elem._id);
                               }}
                               className="text-red-500 hover:text-red-700 "
                             >
@@ -365,7 +429,7 @@ const SaAdminsTable = () => {
               </div>
             </div>
 
-            {isCreateChapterModalOpen && (
+            {isCreateUserModalOpen && (
               <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
                 <div
                   id="popup-modal"
@@ -374,46 +438,95 @@ const SaAdminsTable = () => {
                   <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <form
-                        onSubmit={handleChapterCreationSubmit}
+                        onSubmit={handleUserCreationSubmit}
                         className="p-4 md:p-5 text-center"
                       >
                         <h3 className="mb-5 text-lg font-bold text-xl text-gray-500 dark:text-gray-400">
-                          Create Chapter
+                          Create User
                         </h3>
 
-                        {/* Chapter Name Input */}
+                        {/* Member Id Input */}
                         <div className="mb-4">
                           <label
-                            htmlFor="chapter-name"
+                            htmlFor="memeber_id"
                             className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
                           >
-                            Chapter Name*
+                            Member Id*
                           </label>
                           <input
                             type="text"
-                            id="chapter-name"
-                            value={chapterName}
-                            onChange={(e) => setChapterName(e.target.value)}
+                            id="memeber_id"
+                            value={member_id}
+                            onChange={(e) => setMember_id(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Enter Chapter name"
+                            placeholder="Enter Member Id"
                             required
                           />
                         </div>
 
-                        {/* Upload Logo Input */}
+                        {/* Name Input */}
                         <div className="mb-4">
                           <label
-                            htmlFor="upload-logo"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left my-2"
+                            htmlFor="username"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
                           >
-                            Upload Logo*
+                            Name*
                           </label>
                           <input
-                            type="file"
-                            id="upload-logo"
-                            onChange={(e) => setChapterLogo(e.target.files[0])}
-                            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:hover:file:bg-gray-500"
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Enter Name"
                             required
+                          />
+                        </div>
+
+                        {/* User Role */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="userRole"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Role*
+                          </label>
+                          <select
+                            className="bg-gray-100 border border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
+                            onChange={(e) => {
+                              setUserRole(e.target.value);
+                            }}
+                            value={userRole}
+                          >
+                            <option value="" selected disabled>
+                              Select Role
+                            </option>
+                            <option value="1">Regional Management</option>
+                            <option value="2">Member</option>
+                            <option value="3">Spouse/Partner</option>
+                            <option value="4">ChapterManager</option>
+                          </select>
+                        </div>
+
+                        {/* Chapter Selection */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="chapter_select"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Chapter*
+                          </label>
+                          <Select
+                            styles={dropdownStyles}
+                            options={chaptersData.map((data) => ({
+                              value: data._id,
+                              label: data.chapter_Name,
+                            }))}
+                            value={selectedChapter}
+                            onChange={setSelectedChapter}
+                            placeholder="Select Chapter"
+                            isClearable
+                            isMulti
                           />
                         </div>
 
@@ -421,7 +534,7 @@ const SaAdminsTable = () => {
                         <button
                           type="button"
                           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                          onClick={() => SetIsCreateChapterModalOpen(false)}
+                          onClick={() => SetIsCreateUserModalOpen(false)}
                         >
                           Cancel
                         </button>
@@ -430,7 +543,7 @@ const SaAdminsTable = () => {
                           type="submit"
                           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         >
-                          Submit
+                          Create
                         </button>
                       </form>
                     </div>
@@ -451,7 +564,7 @@ const SaAdminsTable = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          SetIsDeleteModalOen(false), setChapterDeleteId("");
+                          SetIsDeleteModalOen(false), setUserDeleteId("");
                         }}
                         className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                       >
@@ -501,7 +614,7 @@ const SaAdminsTable = () => {
                         </button>
                         <button
                           onClick={() => {
-                            SetIsDeleteModalOen(false), setChapterDeleteId("");
+                            SetIsDeleteModalOen(false), setUserDeleteId("");
                           }}
                           className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         >
