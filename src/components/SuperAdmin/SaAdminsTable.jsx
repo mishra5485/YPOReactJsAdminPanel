@@ -496,9 +496,10 @@ const SaAdminsTable = () => {
                             onChange={(e) => {
                               setUserRole(e.target.value);
                             }}
+                            defaultValue="select_role"
                             value={userRole}
                           >
-                            <option value="" selected disabled>
+                            <option value="select_role" disabled>
                               Select Role
                             </option>
                             <option value="1">Regional Management</option>
