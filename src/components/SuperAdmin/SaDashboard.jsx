@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SaSidebar";
 import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const SaDashboard = () => {
   return (
@@ -16,9 +17,11 @@ const SaDashboard = () => {
             <h1 className="text-3xl font-bold ">Welcome Back</h1>
             
           </div>
+          <Link to="/sp/dashboard/saprofile">
           <div className="p-4 mx-8 border rounded-full shadow-md">
           <FaUser size={28}/>
           </div>
+          </Link>
         </div>
         <Outlet />
       </div>
