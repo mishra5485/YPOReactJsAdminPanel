@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import toast, { Toaster } from "react-hot-toast";
-import { useFormik } from "formik";
-import { AgencyRegistration } from "../../schemas";
 import getToken from "../../commonfunctions/getToken";
 import { Status } from "../../commonfunctions/Enums";
 import { MdDeleteForever } from "react-icons/md";
@@ -11,18 +9,19 @@ import { MdAdd } from "react-icons/md";
 
 const SaDashboardDetails = () => {
   const [records, setrecords] = useState([]);
-  const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState(records);
-  const [isLoading, setisLoading] = useState(false);
 
+  console.log("Rendered");
+
+  const [searchText, setSearchText] = useState("");
   const [chapterName, setChapterName] = useState("");
+  const [chapterDeleteId, setChapterDeleteId] = useState("");
   const [chaperLogo, setChapterLogo] = useState();
 
+  const [isLoading, setisLoading] = useState(false);
   const [isCreateChapterModalOpen, SetIsCreateChapterModalOpen] =
     useState(false);
-
   const [isDeleteModalOpen, SetIsDeleteModalOen] = useState(false);
- 
 
   useEffect(() => {
     const filteredItems = records.filter((item) =>
@@ -37,6 +36,7 @@ const SaDashboardDetails = () => {
   }, []);
 
   const getAllChapters = async () => {
+    toast.dismiss();
     try {
       setisLoading(true);
       let response = await axios.get(
@@ -50,15 +50,12 @@ const SaDashboardDetails = () => {
       if (responseStatus == 200) {
         setrecords(responseData);
         setisLoading(false);
-        toast.success(`${responseMessage}`, {
-          style: { background: "green", color: "white" },
-        });
       }
     } catch (error) {
       const errorResponseMessage = error.response.data.message;
       const responseStatus = error.response.status;
       console.log(error);
-
+      setrecords([]);
       setisLoading(false);
       if (error.response) {
         if (
@@ -86,10 +83,12 @@ const SaDashboardDetails = () => {
     setSearchText(e.target.value);
   };
 
-  const handleDelete = async (chapter_id) => {
+  const handleDelete = async () => {
+    toast.dismiss();
+
     try {
       const payloadData = {
-        chapter_id: chapter_id,
+        chapter_id: chapterDeleteId,
       };
 
       let response = await axios.post(
@@ -97,15 +96,14 @@ const SaDashboardDetails = () => {
         payloadData
       );
 
-      const responseStatus = response.status;
       const responseMessage = response.data.message;
 
-      if (responseStatus == 200) {
-        getAllChapters();
-        toast.success(`${responseMessage}`, {
-          style: { background: "green", color: "white" },
-        });
-      }
+      SetIsDeleteModalOen(false);
+      setChapterDeleteId("");
+      getAllChapters();
+      toast.success(`${responseMessage}`, {
+        style: { background: "green", color: "white" },
+      });
     } catch (error) {
       const errorResponseMessage = error.response.data.message;
       if (errorResponseMessage) {
@@ -119,60 +117,6 @@ const SaDashboardDetails = () => {
       }
     }
   };
-
-  const columns = [
-    {
-      name: "Chapter Logo",
-      selector: (row) => row.agency_name,
-      sortable: true,
-      cell: (row) => (
-        <div className="flex justify-center items-center">
-          <img
-            src={`${import.meta.env.VITE_REACT_APP_BASE_URL}/${
-              row.chapter_Logo
-            }`}
-            alt={row.chapter_Name}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-        </div>
-      ),
-    },
-    {
-      name: "Chapter Name",
-      selector: (row) => row.chapter_Name,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      cell: (row) => (
-        <span
-          className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-            row.status == Status.Active ? "bg-green-500" : "bg-gray-500"
-          }`}
-        >
-          {row.status == Status.Active ? "Active" : "Inactive"}
-        </span>
-      ),
-    },
-    {
-      name: "Region",
-      selector: (row) => row.chapter_Region,
-    },
-    {
-      name: "Operations",
-      selector: (row) => row.contact_number,
-      cell: (row) => (
-        <div>
-          <button
-            onClick={() => handleDelete(row._id)} // Pass the _id to the delete function
-            className="text-red-500 hover:text-red-700 "
-          >
-            <MdDeleteForever size={24} />
-          </button>
-        </div>
-      ),
-    },
-  ];
 
   const handleChapterCreationSubmit = async (e) => {
     e.preventDefault();
@@ -238,6 +182,62 @@ const SaDashboardDetails = () => {
       }
     }
   };
+
+  const columns = [
+    {
+      name: "Chapter Logo",
+      selector: (row) => row.agency_name,
+      sortable: true,
+      cell: (row) => (
+        <div className="flex justify-center items-center">
+          <img
+            src={`${import.meta.env.VITE_REACT_APP_BASE_URL}/${
+              row.chapter_Logo
+            }`}
+            alt={row.chapter_Name}
+            className="w-12 h-12 rounded-full object-cover"
+          />
+        </div>
+      ),
+    },
+    {
+      name: "Chapter Name",
+      selector: (row) => row.chapter_Name,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+            row.status == Status.Active ? "bg-green-500" : "bg-gray-500"
+          }`}
+        >
+          {row.status == Status.Active ? "Active" : "Inactive"}
+        </span>
+      ),
+    },
+    {
+      name: "Region",
+      selector: (row) => row.chapter_Region,
+    },
+    {
+      name: "Operations",
+      selector: (row) => row.contact_number,
+      cell: (row) => (
+        <div>
+          <button
+            onClick={() => {
+              SetIsDeleteModalOen(true), setChapterDeleteId(row._id);
+            }}
+            className="text-red-500 hover:text-red-700 "
+          >
+            <MdDeleteForever size={24} />
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -392,7 +392,9 @@ const SaDashboardDetails = () => {
                     {/* Close button */}
                     <button
                       type="button"
-                      onClick={() => SetIsDeleteModalOen(true)(false)}
+                      onClick={() => {
+                        SetIsDeleteModalOen(false), setChapterDeleteId("");
+                      }}
                       className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       <svg
@@ -431,16 +433,18 @@ const SaDashboardDetails = () => {
                         />
                       </svg>
                       <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                        Are you sure you want to delete this product?
+                        Are you sure you want to delete this Chapter?
                       </h3>
                       <button
-                        onClick={() => SetIsDeleteModalOen(true)(false)}
+                        onClick={() => handleDelete()}
                         className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                       >
-                        Yes, I'm sure
+                        Yes,
                       </button>
                       <button
-                        onClick={() => SetIsDeleteModalOen(true)(false)}
+                        onClick={() => {
+                          SetIsDeleteModalOen(false), setChapterDeleteId("");
+                        }}
                         className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                       >
                         No, cancel
