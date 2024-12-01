@@ -5,12 +5,11 @@ import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import getLoginData from "../../commonfunctions/getLoginData";
 
-
 const SaDashboard = () => {
   const LoginData = getLoginData();
 
   return (
-    <div className="h-[100%] ">
+    <div className="h-[100%]">
       {/* Sidebar remains fixed on the left */}
       <Sidebar />
 
@@ -18,13 +17,17 @@ const SaDashboard = () => {
       <div className="p-4 sm:ml-72 h-[100vh]">
         <div className="w-full flex justify-between items-center mt-4 h-16 px-4 pt-4 pb-12 border-b-2">
           <div>
-            <h1 className="text-3xl font-bold ">{`Welcome Back,${LoginData.Username}`}</h1>
-            
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+              {`Welcome Back, ${LoginData.Username}`}
+            </h1>
           </div>
           <Link to="/sp/dashboard/saprofile">
-          <div className="p-4 border rounded-full shadow-md">
-          <FaUser size={28}/>
-          </div>
+            <div className="p-3 sm:p-4 border rounded-full shadow-md">
+              <FaUser
+                size={20} // Default size
+                className="sm:size-18 lg:size-6" 
+              />
+            </div>
           </Link>
         </div>
         <Outlet />
