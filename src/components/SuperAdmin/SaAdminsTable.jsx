@@ -442,7 +442,7 @@ const SaAdminsTable = () => {
                   style={{ justifyContent: "space-between" }}
                 >
                   <h5 className="text-2xl font-bold mt-2 px-2 py-1 text-left">
-                    Manage Users
+                    Manage Regional Management
                   </h5>
                   <div className="flex justify-ceter">
                     <input
