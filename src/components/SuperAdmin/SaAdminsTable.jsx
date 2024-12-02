@@ -501,20 +501,18 @@ const SaAdminsTable = () => {
 
                           <td className="px-6 py-4">
                             <div>
-                              <button
-                                onClick={() => {
-                                  SetIsDeleteModalOen(true),
-                                    setUserDeleteId(elem._id);
-                                }}
-                                className="text-white-500 hover:text-white-700 "
+
+                              <a
+                                href={`${import.meta.env.VITE_REACT_APP_BASE_URL}/user/rndcard/${elem._id}`}
+                                target="_blank"
                               >
-                                <div className="bg-blue-400 p-2 border rounded-lg">
+                                <div className="bg-blue-400 p-2 border rounded-lg w-10">
                                   <FaArrowUpRightFromSquare
                                     size={14}
                                     color="white"
                                   />
                                 </div>
-                              </button>
+                              </a>
                               <button
                                 onClick={() => {
                                   navigate(
