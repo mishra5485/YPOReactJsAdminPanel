@@ -14,7 +14,7 @@ const SaDashboard = () => {
       <Sidebar />
 
       {/* Right side displays the nested routes */}
-      <div className="p-4 sm:ml-72 h-[100vh]">
+      <div className="p-4 sm:ml-64 h-[100vh]">
         <div className="w-full flex justify-between items-center mt-4 h-16 px-4 pt-4 pb-12 border-b-2">
           <div>
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">
