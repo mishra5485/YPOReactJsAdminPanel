@@ -144,11 +144,11 @@ const SaAdminsTable = () => {
 
     try {
       const payloadData = {
-        chapter_id: userDeleteId,
+        user_id: userDeleteId,
       };
 
       let response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/deletebyId`,
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/deletebyId`,
         payloadData
       );
 
@@ -630,7 +630,7 @@ const SaAdminsTable = () => {
                           />
                         </svg>
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                          Are you sure you want to delete this Chapter?
+                          Are you sure you want to delete this User?
                         </h3>
                         <button
                           onClick={() => handleDelete()}
