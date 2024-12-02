@@ -351,6 +351,42 @@ const SaAdminsTable = () => {
     }
   };
 
+  const downlaodUserCard = async (user_id) => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/user/downloadcard/${user_id}`,
+        { responseType: "blob" } 
+      );
+
+      const blob = new Blob([response.data], { type: "image/jpeg" }); 
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `UserCard_${user_id}.jpg`); 
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url); 
+    } catch (error) {
+      console.log(error);
+
+      const errorResponseMessage =
+        error.response?.data?.message || "Unknown error";
+      const responseStatus = error.response?.status || "No status";
+
+      toast.error(`${errorResponseMessage}`, {
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+
+      throw new Error(`API Error: Status ${responseStatus}`);
+    }
+  };
+
   const dropdownStyles = {
     control: (styles) => ({ ...styles, marginBottom: "1rem" }),
     menuList: (styles) => ({
@@ -500,30 +536,23 @@ const SaAdminsTable = () => {
                           </td>
 
                           <td className="px-6 py-4">
-                            <div>
-
+                            <div className="flex items-center space-x-4">
                               <a
-                                href={`${import.meta.env.VITE_REACT_APP_BASE_URL}/user/rndcard/${elem._id}`}
+                                href={`${
+                                  import.meta.env.VITE_REACT_APP_BASE_URL
+                                }/user/rndcard/${elem._id}`}
                                 target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
                               >
-                                <div className="bg-blue-400 p-2 border rounded-lg w-10">
-                                  <FaArrowUpRightFromSquare
-                                    size={14}
-                                    color="white"
-                                  />
-                                </div>
+                                <FaArrowUpRightFromSquare size={14} />
                               </a>
+
                               <button
-                                onClick={() => {
-                                  navigate(
-                                    `/sp/dashboard/sachaptermembers/${elem._id}`
-                                  );
-                                }}
-                                className="text-white-500 hover:text-white-700 px-3"
+                                onClick={() => downlaodUserCard(elem._id)}
+                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
                               >
-                                <div className="bg-blue-400 p-2 border rounded-lg">
-                                  <FaDownload size={16} color="white" />
-                                </div>
+                                <FaDownload size={16} />
                               </button>
                             </div>
                           </td>
