@@ -37,7 +37,7 @@ const SaAdminsTable = () => {
     const filteredItems = records.filter(
       (item) =>
         item.userName.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.member_id.toLowerCase().includes(searchText.toLowerCase())
+        item.member_id.includes(searchText)
     );
 
     setFilteredData(filteredItems);
