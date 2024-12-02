@@ -521,7 +521,7 @@ const SaChapterManagers = () => {
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
                             <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white">
-                             Spouse/Partner
+                            Chapter Manager
                             </span>
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
