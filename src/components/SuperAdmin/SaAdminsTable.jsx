@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { FaDownload } from "react-icons/fa6";
+import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
+import { IoMdDownload } from "react-icons/io";
 
 const SaAdminsTable = () => {
   const navigate = useNavigate();
@@ -314,6 +314,43 @@ const SaAdminsTable = () => {
     }
   };
 
+  const downloadExcelUserData = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/downloadUserData`,
+        {},
+        { responseType: "blob" }
+      );
+
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "YpoSouthAsiaUsers.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log(error);
+
+      const errorResponseMessage =
+        error.response?.data?.message || "Unknown error";
+      const responseStatus = error.response?.status || "No status";
+
+      toast.error(`${errorResponseMessage}`, {
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+
+      throw new Error(`API Error: Status ${responseStatus}`);
+    }
+  };
+
   const dropdownStyles = {
     control: (styles) => ({ ...styles, marginBottom: "1rem" }),
     menuList: (styles) => ({
@@ -375,6 +412,14 @@ const SaAdminsTable = () => {
                       type="button"
                     >
                       <MdAdd size={20} />
+                    </button>
+
+                    <button
+                      onClick={() => downloadExcelUserData()}
+                      className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      <IoMdDownload size={20} />
                     </button>
                   </div>
                 </div>
