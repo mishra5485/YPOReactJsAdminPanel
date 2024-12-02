@@ -190,6 +190,18 @@ const SaAdminsTable = () => {
       return;
     }
 
+    if(userRole!=AccessLevel.SuperAdmin){
+      if(selectedChapter.length==0){
+        toast.error(`Please select chapter(s)`, {
+          style: {
+            background: "black",
+            color: "white",
+          },
+        });
+        return;
+      }
+    }
+
     let updatedChaptersArray;
     if (selectedChapter) {
       updatedChaptersArray = selectedChapter.map((chapter) => {
