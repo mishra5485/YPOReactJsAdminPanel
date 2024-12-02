@@ -25,9 +25,12 @@ const SaAdminsTable = () => {
   const [selectedChapter, setSelectedChapter] = useState([]);
 
   const [userDeleteId, setUserDeleteId] = useState("");
+  const [modalUsername, setModalUsername] = useState("");
+  const [modalUser_id, setModalUser_id] = useState("");
 
   const [isLoading, setisLoading] = useState(false);
   const [isCreateUserModalOpen, SetIsCreateUserModalOpen] = useState(false);
+  const [isUpdateUserModalOpen, SetIsUpdateUserModalOpen] = useState(false);
   const [isDeleteModalOpen, SetIsDeleteModalOen] = useState(false);
 
   useEffect(() => {
@@ -251,6 +254,66 @@ const SaAdminsTable = () => {
     }
   };
 
+  const handleUserUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!modalUser_id) {
+      toast.error(`Please Fill all feilds`, {
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    const payload = {
+      user_id: modalUser_id,
+      userName: modalUsername,
+    };
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/upadtebyId`,
+        payload
+      );
+      const responseMessage = response.data.message;
+
+      toast.success(responseMessage || "User Created Successfully", {
+        style: { background: "green", color: "white" },
+      });
+      setModalUser_id("");
+      setUserRole(null);
+      getAllSuperAdmins();
+      SetIsUpdateUserModalOpen(false);
+    } catch (error) {
+      const errorResponseMessage = error.response.data.message;
+      const responseStatus = error.response.status;
+      console.log(error);
+
+      setisLoading(false);
+      if (error.response) {
+        if (
+          responseStatus == 404 ||
+          responseStatus == 403 ||
+          responseStatus == 500 ||
+          responseStatus == 302 ||
+          responseStatus == 409 ||
+          responseStatus == 401 ||
+          responseStatus == 400
+        ) {
+          toast.error(`${errorResponseMessage}`, {
+            style: {
+              background: "black",
+              color: "white",
+            },
+          });
+          throw new Error(`API Error: Status ${responseStatus}`);
+        }
+      }
+    }
+  };
+
   const dropdownStyles = {
     control: (styles) => ({ ...styles, marginBottom: "1rem" }),
     menuList: (styles) => ({
@@ -435,9 +498,9 @@ const SaAdminsTable = () => {
                               </button>
                               <button
                                 onClick={() => {
-                                  navigate(
-                                    `/sp/dashboard/sachaptermembers/${elem._id}`
-                                  );
+                                  SetIsUpdateUserModalOpen(true),
+                                    setModalUsername(elem.userName);
+                                  setModalUser_id(elem._id);
                                 }}
                                 className="text-blue-500 hover:text-blue-700 px-3"
                               >
@@ -570,6 +633,63 @@ const SaAdminsTable = () => {
                           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         >
                           Create
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isUpdateUserModalOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                <div
+                  id="popup-modal"
+                  className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+                >
+                  <div className="relative p-4 w-full max-w-md max-h-full">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <form
+                        onSubmit={handleUserUpdateSubmit}
+                        className="p-4 md:p-5 text-center"
+                      >
+                        <h3 className="mb-5 text-lg font-bold text-xl text-gray-500 dark:text-gray-400">
+                          Update User
+                        </h3>
+
+                        {/* Name Input */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="modalusername"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Name*
+                          </label>
+                          <input
+                            type="text"
+                            id="modalusername"
+                            value={modalUsername}
+                            onChange={(e) => setModalUsername(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Enter Name"
+                            required
+                          />
+                        </div>
+
+                        {/* Buttons */}
+                        <button
+                          type="button"
+                          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          onClick={() => SetIsUpdateUserModalOpen(false)}
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        >
+                          Update
                         </button>
                       </form>
                     </div>
