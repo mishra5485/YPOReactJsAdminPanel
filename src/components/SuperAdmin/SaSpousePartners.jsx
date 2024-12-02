@@ -520,7 +520,7 @@ const SaSpousePartners = () => {
                             {elem.member_id}
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white">
+                            <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white whitespace-nowrap">
                              Spouse/Partner
                             </span>
                           </td>
