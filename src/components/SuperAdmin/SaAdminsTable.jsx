@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { AccessLevel, Status } from "../../commonfunctions/Enums";
-import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
@@ -10,7 +9,6 @@ import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
 
 const SaAdminsTable = () => {
-  const navigate = useNavigate();
 
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
