@@ -9,7 +9,6 @@ import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
 
 const SaChapterManagers = () => {
-
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
 
@@ -188,8 +187,8 @@ const SaChapterManagers = () => {
       return;
     }
 
-    if(userRole!=AccessLevel.SuperAdmin){
-      if(selectedChapter.length==0){
+    if (userRole != AccessLevel.SuperAdmin) {
+      if (selectedChapter.length == 0) {
         toast.error(`Please select chapter(s)`, {
           style: {
             background: "black",
@@ -367,18 +366,18 @@ const SaChapterManagers = () => {
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
         }/user/downloadcard/${user_id}`,
-        { responseType: "blob" } 
+        { responseType: "blob" }
       );
 
-      const blob = new Blob([response.data], { type: "image/jpeg" }); 
+      const blob = new Blob([response.data], { type: "image/jpeg" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `UserCard_${user_id}.jpg`); 
+      link.setAttribute("download", `UserCard_${user_id}.jpg`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url); 
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.log(error);
 
@@ -435,26 +434,28 @@ const SaChapterManagers = () => {
           </div>
         ) : (
           <>
-            <div className="bg-white w-full p-3 mx-auto rounded-md shadow-md min-h-screen">
+            <div className="bg-white w-full p-3 rounded-md shadow-md min-h-screen">
               <div className="mt-10 border-b border-gray-100 h-100vh">
                 <div
-                  className="flex justify-around my-5"
-                  style={{ justifyContent: "space-between" }}
+                  className="flex md:flex-row flex-col gap-4 md:gap-0 my-5 justify-between"
                 >
-                  <h5 className="text-2xl font-bold mt-2 px-2 py-1 text-left">
-                    Manage Chapter Managers
-                  </h5>
-                  <div className="flex justify-ceter">
+                  <div>
+                    <h5 className="md:text-2xl text-xl font-bold mt-2 px-2 py-1 text-left">
+                      Manage Chapter Managers
+                    </h5>
+                  </div>
+
+                  <div className="flex md:justify-center md:items-center gap-4">
                     <input
                       type="text"
                       placeholder="Search Username"
                       value={searchText}
                       onChange={handleSearch}
-                      className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
+                      className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-800"
                     />
                     <button
                       onClick={() => SetIsCreateUserModalOpen(true)}
-                      className="block text-white mx-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="block text-white p-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       type="button"
                     >
                       <MdAdd size={20} />
@@ -462,7 +463,7 @@ const SaChapterManagers = () => {
 
                     <button
                       onClick={() => downloadExcelUserData()}
-                      className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="block text-white p-3  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       type="button"
                     >
                       <IoMdDownload size={20} />
@@ -515,13 +516,12 @@ const SaChapterManagers = () => {
                           className=" border-b dark:border-gray-700"
                           key={index}
                         >
-                          
                           <td className="px-6 py-4 text-gray-800 text-base">
                             {elem.member_id}
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
                             <span className="bg-blue-800 px-4 py-1 border rounded-xl text-white whitespace-nowrap">
-                            Chapter Manager
+                              Chapter Manager
                             </span>
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
