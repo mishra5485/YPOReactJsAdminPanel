@@ -94,6 +94,7 @@ const saSidebar = () => {
               <li>
                 <button
                   type="button"
+              onClick={toggleSidebar}
                   className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                 >
                   <TiHomeOutline size={20} />
@@ -108,6 +109,7 @@ const saSidebar = () => {
               <li>
                 <button
                   type="button"
+              onClick={toggleSidebar}
                   className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                 >
                   <BiBookContent size={20} />
@@ -122,6 +124,7 @@ const saSidebar = () => {
               <li>
                 <button
                   type="button"
+                  onClick={toggleSidebar}
                   className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                 >
                   <TbUsers size={20} />
@@ -136,6 +139,7 @@ const saSidebar = () => {
               <li>
                 <button
                   type="button"
+                  onClick={toggleSidebar}
                   className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
                 >
                   <PiTelegramLogo size={20} />
