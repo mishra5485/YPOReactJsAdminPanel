@@ -19,7 +19,7 @@ const CpDashboard = () => {
               {`Welcome Back, ${LoginData.Username}`}
             </h1>
           </div>
-          <Link to="/sp/dashboard/saprofile">
+          <Link to="/cp/dashboard/cpprofile">
             <div className="p-3 sm:p-4 border rounded-full shadow-md">
               <FaUser
                 size={20} 
