@@ -436,9 +436,7 @@ const SaChapterManagers = () => {
           <>
             <div className="bg-white w-full p-3 rounded-md shadow-md min-h-screen">
               <div className="mt-10 border-b border-gray-100 h-100vh">
-                <div
-                  className="flex md:flex-row flex-col gap-4 md:gap-0 my-5 justify-between"
-                >
+                <div className="flex md:flex-row flex-col gap-4 md:gap-0 my-5 justify-between">
                   <div>
                     <h5 className="md:text-2xl text-xl font-bold mt-2 px-2 py-1 text-left">
                       Manage Chapter Managers
@@ -529,7 +527,11 @@ const SaChapterManagers = () => {
                           </td>
 
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.updatedChapterArrayWithNames[0]?.ChapterName}
+                            {elem?.updatedChapterArrayWithNames?.map(
+                              (chapter, index) => (
+                                <p key={index}>{chapter.ChapterName}</p>
+                              )
+                            )}
                           </td>
                           <td className="px-6 py-4">
                             {
