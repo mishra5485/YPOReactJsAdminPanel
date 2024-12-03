@@ -38,22 +38,32 @@ const Login = () => {
           payloadData
         );
 
-        const { Role: responseUserRole, message: responseMessage } = data?.data || {};
+        const { Role: responseUserRole, message: responseMessage } =
+          data?.data || {};
 
         if (status == 200) {
           localStorage.setItem("loginData", JSON.stringify(data?.data));
-          const route = responseUserRole == AccessLevel.SuperAdmin
-            ? "/sp/dashboard/sahome"
-            : "/cp/dashboard/cphome";
+          const route =
+            responseUserRole == AccessLevel.SuperAdmin
+              ? "/sp/dashboard/sahome"
+              : responseUserRole == AccessLevel.ChapterManager
+              ? "/cp/dashboard/cphome"
+              : null;
+
+          if (route) {
             navigate(route);
             resetForm();
             toast.success(responseMessage || "Login successful", {
               style: { background: "green", color: "white" },
             });
+          } else {
+            toast.error("Cannot access the Dashboard");
+          }
         }
       } catch (error) {
         const errorMessage =
-          error.response?.data?.message || "Something went wrong! Please try again.";
+          error.response?.data?.message ||
+          "Something went wrong! Please try again.";
 
         toast.error(errorMessage, {
           style: { background: "black", color: "white" },
