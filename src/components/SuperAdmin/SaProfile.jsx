@@ -75,6 +75,12 @@ const SaProfile = () => {
     }
   };
 
+  
+  const handleLogout = () => {
+    localStorage.removeItem("loginData");
+    navigate("/");
+  };
+
   const togglePasswordVisibility = (field) => {
     if (field == "current") {
       setShowCurrentPassword(!showCurrentPassword);
@@ -116,6 +122,7 @@ const SaProfile = () => {
         );
         toast.success(response.data.message);
         resetForm();
+        handleLogout()
       } catch (error) {
         if (error.response) {
           toast.error(error.response.data.message);

@@ -85,6 +85,11 @@ const CpProfile = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("loginData");
+    navigate("/");
+  };
+
   const initialValues = {
     currentPassword: "",
     newPassword: "",
@@ -115,6 +120,7 @@ const CpProfile = () => {
           payload
         );
         toast.success(response.data.message);
+        handleLogout()
         resetForm();
       } catch (error) {
         if (error.response) {
