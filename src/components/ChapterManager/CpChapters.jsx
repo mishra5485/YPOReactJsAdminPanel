@@ -191,7 +191,7 @@ const CpChapters = () => {
                             <button
                               onClick={() => {
                                 navigate(
-                                  `/sp/dashboard/sachaptermembers/${elem._id}`
+                                  `/cp/dashboard/cpchapterusers/${elem._id}`
                                 );
                               }}
                             >
