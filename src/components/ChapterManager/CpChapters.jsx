@@ -219,7 +219,7 @@ const CpChapters = () => {
                               <button
                                 onClick={() => {
                                   navigate(
-                                    `/sp/dashboard/sachaptermembers/${elem._id}`
+                                    `/cp/dashboard/cpchapterusers/${elem._id}`
                                   );
                                 }}
                                 className="text-blue-500 hover:text-blue-700 px-3"
