@@ -57,7 +57,6 @@ const SaDashboardDetails = () => {
   return (
     <>
       <Toaster />
-      {console.log("isLoading=====>", isLoading)}
       <div>
         {isLoading ? (
           <div className="flex justify-center">
