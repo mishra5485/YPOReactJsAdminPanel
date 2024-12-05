@@ -81,7 +81,7 @@ const saSidebar = () => {
           {/* Sidebar Content */}
           <div className=" ">
             <NavLink
-              to="/superAdmin/dashboard"
+              to="/cp/dashboard/cphome"
               className="flex items-center flex-shrink-0 text-xl text-gray-800 dark:text-gray-200 my-2"
             >
               <img src={"/logo.jpeg"} className="mr-5 sm:w-30" alt="Logo" />
