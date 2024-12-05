@@ -533,7 +533,11 @@ const SaChapterMembers = () => {
                           </td>
 
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.updatedChapterArrayWithNames[0]?.ChapterName}
+                          {elem?.updatedChapterArrayWithNames?.map(
+                              (chapter, index) => (
+                                <p key={index}>{chapter.ChapterName},</p>
+                              )
+                            )}
                           </td>
                           <td className="px-6 py-4">
                             {
