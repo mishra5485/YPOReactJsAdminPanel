@@ -90,12 +90,19 @@ const saSidebar = () => {
             </NavLink>
           </div>
           <ul className="mt-8 font-medium">
-            <NavLink to={"/sp/dashboard/sahome"}>
+            <NavLink
+              to={"/sp/dashboard/sahome"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 mb-2 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
-              onClick={toggleSidebar}
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  onClick={toggleSidebar}
+                  className="w-full flex items-center"
                 >
                   <TiHomeOutline size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
@@ -105,12 +112,19 @@ const saSidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/sp/dashboard/sachapters"}>
+            <NavLink
+              to={"/sp/dashboard/sachapters"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 mb-2 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
-              onClick={toggleSidebar}
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  onClick={toggleSidebar}
+                  className="w-full flex items-center"
                 >
                   <BiBookContent size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
@@ -120,12 +134,19 @@ const saSidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/sp/dashboard/sachaptermanagers"}>
+            <NavLink
+              to={"/sp/dashboard/sachaptermanagers"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 mb-2 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
                   onClick={toggleSidebar}
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  className="w-full flex items-center"
                 >
                   <TbUsers size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
@@ -135,12 +156,19 @@ const saSidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/sp/dashboard/sarequests"}>
+            <NavLink
+              to={"/sp/dashboard/sarequests"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
                   onClick={toggleSidebar}
-                  className="px-5 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  className="w-full flex items-center"
                 >
                   <PiTelegramLogo size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">

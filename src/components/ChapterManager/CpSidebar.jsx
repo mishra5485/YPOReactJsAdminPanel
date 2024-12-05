@@ -88,12 +88,19 @@ const saSidebar = () => {
             </NavLink>
           </div>
           <ul className="mt-8 font-medium">
-            <NavLink to={"/cp/dashboard/cphome"}>
+            <NavLink
+              to={"/cp/dashboard/cphome"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 mb-2 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
-              onClick={toggleSidebar}
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  onClick={toggleSidebar}
+                  className="w-full flex items-center"
                 >
                   <TiHomeOutline size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
@@ -103,12 +110,19 @@ const saSidebar = () => {
               </li>
             </NavLink>
 
-            <NavLink to={"/cp/dashboard/cpchapters"}>
+            <NavLink
+              to={"/cp/dashboard/cpchapters"}
+              className={({ isActive }) =>
+                isActive
+                  ? "px-5 mb-2 flex items-center w-full p-2 text-white transition duration-75 rounded-lg group bg-blue-900 shadow-md hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:bg-gray-700"
+                  : "px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+              }
+            >
               <li>
                 <button
                   type="button"
-              onClick={toggleSidebar}
-                  className="px-5 mb-2 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-900 hover:text-white hover:shadow-md dark:text-white dark:hover:bg-gray-700"
+                  onClick={toggleSidebar}
+                  className="w-full flex items-center"
                 >
                   <BiBookContent size={20} />
                   <span className="flex-1 ml-3 text-left text-lg whitespace-nowrap">
@@ -117,8 +131,6 @@ const saSidebar = () => {
                 </button>
               </li>
             </NavLink>
-
-            
 
             <div className="absolute top-[85%] w-[86%] flex justify-center">
               <button
@@ -140,7 +152,3 @@ const saSidebar = () => {
 };
 
 export default saSidebar;
-
-
-
-
