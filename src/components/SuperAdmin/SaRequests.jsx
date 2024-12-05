@@ -221,7 +221,7 @@ const SaRequests = () => {
                               )
                             )}
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-6 py-4 whitespace-nowrap">
                             <div>
                               <button
                                 onClick={() => {
