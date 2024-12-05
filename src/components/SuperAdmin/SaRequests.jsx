@@ -217,7 +217,7 @@ const SaRequests = () => {
                           className="font-bold text-2xl text-center py-8"
                           colSpan={7}
                         >
-                          <p>No Records Found</p>
+                          <p>No Requests Found</p>
                         </td>
                       </tr>
                     ) : (
