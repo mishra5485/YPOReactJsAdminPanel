@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import * as yup from "yup";
 import getLoginData from "../../commonfunctions/getLoginData";
+import { useNavigate } from "react-router-dom";
 
 const passwordSchema = yup
   .string()
@@ -21,6 +22,9 @@ const resetPasswordProfileSection = yup.object().shape({
 });
 
 const CpProfile = () => {
+  const navigate = useNavigate();
+
+
   const loggedInUserData = getLoginData();
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
