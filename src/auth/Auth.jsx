@@ -2,24 +2,23 @@ import { Navigate } from "react-router-dom";
 import getLoginData from "../commonfunctions/getLoginData";
 import { AccessLevel } from "../commonfunctions/Enums";
 
-
 export const SuperAdminAuth = ({ children }) => {
-  const loggedInUserData=getLoginData()
-  const userRole=loggedInUserData.Role
+  const loggedInUserData = getLoginData();
 
-  if (userRole != AccessLevel.SuperAdmin) {
+  if (!loggedInUserData || loggedInUserData.Role != AccessLevel.SuperAdmin) {
     return <Navigate to="/" />;
   }
 
   return children;
 };
 
-
 export const ChapterManagerAuth = ({ children }) => {
-  const loggedInUserData=getLoginData()
-  const userRole=loggedInUserData.Role
+  const loggedInUserData = getLoginData();
 
-  if (userRole != AccessLevel.ChapterManager) {
+  if (
+    !loggedInUserData ||
+    loggedInUserData.Role != AccessLevel.ChapterManager
+  ) {
     return <Navigate to="/" />;
   }
 
