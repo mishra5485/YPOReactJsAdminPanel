@@ -163,7 +163,7 @@ const SaDashboardDetails = () => {
                 <div className="text-lg font-semibold mb-2">
                   Pending Approval
                 </div>
-                <div className="text-2xl font-bold">2</div>
+                <div className="text-2xl font-bold">{dashboardData.pendingApprovalDatalength}</div>
               </div>
             </Link>
           </div>
