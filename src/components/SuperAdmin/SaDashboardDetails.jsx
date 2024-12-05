@@ -84,7 +84,7 @@ const SaDashboardDetails = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4 mt-10">
             {/* Regional Management Card */}
             <Link to="/sp/dashboard/saadminstable">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <FaUsers size={32} color="white" />
                 </div>
@@ -99,7 +99,7 @@ const SaDashboardDetails = () => {
 
             {/* Members Card */}
             <Link to="/sp/dashboard/samembers">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <FaUsers size={32} color="white" />
                 </div>
@@ -112,7 +112,7 @@ const SaDashboardDetails = () => {
 
             {/* Spouse/Partners Card */}
             <Link to="/sp/dashboard/saspousepartners">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <FaUsers size={32} color="white" />
                 </div>
@@ -127,7 +127,7 @@ const SaDashboardDetails = () => {
 
             {/* Chapters Card */}
             <Link to="/sp/dashboard/sachapters">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <FaUsers size={32} color="white" />
                 </div>
@@ -140,7 +140,7 @@ const SaDashboardDetails = () => {
 
             {/* Chapter Managers Card */}
             <Link to="/sp/dashboard/sachaptermanagers">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-blue-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <IoBagAdd size={32} color="white" />
                 </div>
@@ -155,7 +155,7 @@ const SaDashboardDetails = () => {
 
             {/* Pending Approval Card */}
             <Link to="/sp/dashboard/sarequests">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-start text-center transform transition-transform hover:scale-105">
                 <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-xl shadow-md">
                   <FaUsers size={32} color="white" />
                 </div>
