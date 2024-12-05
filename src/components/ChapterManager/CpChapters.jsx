@@ -5,6 +5,7 @@ import { Status } from "../../commonfunctions/Enums";
 import { MdRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import getLoginData from "../../commonfunctions/getLoginData";
+import { statusStyles } from "../../commonfunctions/getStatusStyles";
 
 const CpChapters = () => {
   const navigate = useNavigate();
@@ -200,17 +201,14 @@ const CpChapters = () => {
                           </td>
                           <td className="px-6 py-4">
                             {
-                              <span
-                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                  elem.status == Status.Active
-                                    ? "bg-green-500"
-                                    : "bg-gray-500"
-                                }`}
-                              >
-                                {elem.status == Status.Active
-                                  ? "Active"
-                                  : "Inactive"}
-                              </span>
+                               <span
+                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                 statusStyles[elem.status]?.color ||
+                                 "bg-gray-500"
+                               }`}
+                             >
+                               {statusStyles[elem.status]?.text || "Unknown"}
+                             </span>
                             }
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">

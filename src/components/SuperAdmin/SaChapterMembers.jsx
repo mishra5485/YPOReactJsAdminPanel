@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
+import { statusStyles } from "../../commonfunctions/getStatusStyles";
 
 const SaChapterMembers = () => {
   const { chapter_id } = useParams();
@@ -540,19 +541,14 @@ const SaChapterMembers = () => {
                             )}
                           </td>
                           <td className="px-6 py-4">
-                            {
-                              <span
-                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                  elem.status == Status.Active
-                                    ? "bg-green-500"
-                                    : "bg-gray-500"
-                                }`}
-                              >
-                                {elem.status == Status.Active
-                                  ? "Active"
-                                  : "Inactive"}
-                              </span>
-                            }
+                          <span
+                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                statusStyles[elem.status]?.color ||
+                                "bg-gray-500"
+                              }`}
+                            >
+                              {statusStyles[elem.status]?.text || "Unknown"}
+                            </span>
                           </td>
 
                           <td className="px-6 py-4">

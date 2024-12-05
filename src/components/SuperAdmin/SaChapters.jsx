@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Status } from "../../commonfunctions/Enums";
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { statusStyles } from "../../commonfunctions/getStatusStyles";
 
 const SaChapters = () => {
   const navigate = useNavigate();
@@ -306,19 +307,14 @@ const SaChapters = () => {
                             </button>
                           </td>
                           <td className="px-6 py-4">
-                            {
-                              <span
-                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                  elem.status == Status.Active
-                                    ? "bg-green-500"
-                                    : "bg-gray-500"
-                                }`}
-                              >
-                                {elem.status == Status.Active
-                                  ? "Active"
-                                  : "Inactive"}
-                              </span>
-                            }
+                          <span
+                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                statusStyles[elem.status]?.color ||
+                                "bg-gray-500"
+                              }`}
+                            >
+                              {statusStyles[elem.status]?.text || "Unknown"}
+                            </span>
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
                             {elem.chapter_Region}

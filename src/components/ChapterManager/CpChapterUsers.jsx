@@ -9,6 +9,7 @@ import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
 import getLoginData from "../../commonfunctions/getLoginData";
+import { statusStyles } from "../../commonfunctions/getStatusStyles";
 
 const CpChapterUsers = () => {
   const LoginData = getLoginData();
@@ -107,8 +108,10 @@ const CpChapterUsers = () => {
     toast.dismiss();
     try {
       let response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/getChapterManagersChapter`,
-        {chapter_manager_id:LoginData.user_id}
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/user/getChapterManagersChapter`,
+        { chapter_manager_id: LoginData.user_id }
       );
 
       const responseData = response.data.data;
@@ -222,7 +225,7 @@ const CpChapterUsers = () => {
       member_id: member_id,
       accessLevel: userRole,
       userName: username,
-      created_userid:LoginData.user_id
+      created_userid: LoginData.user_id,
     };
 
     if (updatedChaptersArray.length > 0) {
@@ -231,7 +234,9 @@ const CpChapterUsers = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/createUserbyChapterManager`,
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/user/createUserbyChapterManager`,
         payload
       );
       const responseMessage = response.data.message;
@@ -500,19 +505,14 @@ const CpChapterUsers = () => {
                             )}
                           </td>
                           <td className="px-6 py-4">
-                            {
-                              <span
-                                className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                  elem.status == Status.Active
-                                    ? "bg-green-500"
-                                    : "bg-gray-500"
-                                }`}
-                              >
-                                {elem.status == Status.Active
-                                  ? "Active"
-                                  : "Inactive"}
-                              </span>
-                            }
+                            <span
+                              className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
+                                statusStyles[elem.status]?.color ||
+                                "bg-gray-500"
+                              }`}
+                            >
+                              {statusStyles[elem.status]?.text || "Unknown"}
+                            </span>
                           </td>
 
                           <td className="px-6 py-4">
