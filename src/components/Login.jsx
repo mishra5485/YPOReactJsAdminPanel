@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/logo.jpeg";
+import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
