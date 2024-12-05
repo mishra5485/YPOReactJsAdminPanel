@@ -8,8 +8,11 @@ import { useParams } from "react-router-dom";
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
+import getLoginData from "../../commonfunctions/getLoginData";
 
 const CpChapterUsers = () => {
+  const LoginData = getLoginData();
+
   const { chapter_id } = useParams();
 
   const [records, setrecords] = useState([]);
@@ -103,8 +106,9 @@ const CpChapterUsers = () => {
   const getAllDropdownChapters = async () => {
     toast.dismiss();
     try {
-      let response = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/chapter/getall`
+      let response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/getChapterManagersChapter`,
+        {chapter_manager_id:LoginData.user_id}
       );
 
       const responseData = response.data.data;
@@ -632,10 +636,8 @@ const CpChapterUsers = () => {
                             <option value="select_role" disabled>
                               Select Role
                             </option>
-                            <option value="1">Regional Manager</option>
                             <option value="2">Member</option>
                             <option value="3">Spouse/Partner</option>
-                            <option value="4">Chapter Manager</option>
                           </select>
                         </div>
 
@@ -650,8 +652,8 @@ const CpChapterUsers = () => {
                             <Select
                               styles={dropdownStyles}
                               options={chaptersData.map((data) => ({
-                                value: data._id,
-                                label: data.chapter_Name,
+                                value: data.chapter_id,
+                                label: data.chapterName,
                               }))}
                               value={selectedChapter}
                               onChange={setSelectedChapter}
