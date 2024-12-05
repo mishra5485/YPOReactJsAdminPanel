@@ -1,10 +1,25 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import getLoginData from "../commonfunctions/getLoginData";
+import { AccessLevel } from "../commonfunctions/Enums";
 
-export const Auth = ({ children }) => {
-  const userData = useSelector((state) => state.auth.userData);
 
-  if (userData === null) {
+export const SuperAdminAuth = ({ children }) => {
+  const loggedInUserData=getLoginData()
+  const userRole=loggedInUserData.Role
+
+  if (userRole != AccessLevel.SuperAdmin) {
+    return <Navigate to="/" />;
+  }
+
+  return children;
+};
+
+
+export const ChapterManagerAuth = ({ children }) => {
+  const loggedInUserData=getLoginData()
+  const userRole=loggedInUserData.Role
+
+  if (userRole != AccessLevel.ChapterManager) {
     return <Navigate to="/" />;
   }
 

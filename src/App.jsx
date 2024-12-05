@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Login from "./components/Login";
-import { Auth } from "./auth/Auth";
+import { SuperAdminAuth,ChapterManagerAuth } from "./auth/Auth";
 import PageNotFound from "./components/PageNotFound";
 
 
@@ -32,24 +32,24 @@ function App() {
       <Route exact path="*" element={<PageNotFound />} />
 
       {/* Dashboard for admin with nested routes */}
-      <Route path="/sp/dashboard" element={<SaDashboard />}>
-        <Route path="sahome" element={<SaDashboardDetails />} />
-        <Route path="saadminstable" element={<SaAdminsTable />} />
-        <Route path="sachaptermanagers" element={<SaChapterManagers />} />
-        <Route path="sachaptermembers/:chapter_id" element={<SaChapterMembers />} />
-        <Route path="sachapters" element={<SaChapters />} />
-        <Route path="samembers" element={<SaMembers />} />
-        <Route path="saprofile" element={<SaProfile />} />
-        <Route path="sarequests" element={<SaRequests />} />
-        <Route path="saspousepartners" element={<SaSpousePartners />} />
+      <Route path="/sp/dashboard" element={<SuperAdminAuth><SaDashboard /></SuperAdminAuth>}>
+        <Route path="sahome" element={<SuperAdminAuth><SaDashboardDetails /></SuperAdminAuth>} />
+        <Route path="saadminstable" element={<SuperAdminAuth><SaAdminsTable /></SuperAdminAuth>} />
+        <Route path="sachaptermanagers" element={<SuperAdminAuth><SaChapterManagers /></SuperAdminAuth>} />
+        <Route path="sachaptermembers/:chapter_id" element={<SuperAdminAuth><SaChapterMembers /></SuperAdminAuth>} />
+        <Route path="sachapters" element={<SuperAdminAuth><SaChapters /></SuperAdminAuth>} />
+        <Route path="samembers" element={<SuperAdminAuth><SaMembers /></SuperAdminAuth>} />
+        <Route path="saprofile" element={<SuperAdminAuth><SaProfile /></SuperAdminAuth>} />
+        <Route path="sarequests" element={<SuperAdminAuth><SaRequests /></SuperAdminAuth>} />
+        <Route path="saspousepartners" element={<SuperAdminAuth><SaSpousePartners /></SuperAdminAuth>} />
       </Route>
 
 
-      <Route path="/cp/dashboard" element={<CpDashboard />}>
-        <Route path="cphome" element={<CpDashboardDetails />} />
-        <Route path="cpchapters" element={<CpChapters />} />
-        <Route path="cpchapterusers/:chapter_id" element={<CpChapterUsers />} />
-        <Route path="cpprofile" element={<CpProfile />} />
+      <Route path="/cp/dashboard" element={<ChapterManagerAuth><CpDashboard /></ChapterManagerAuth>}>
+        <Route path="cphome" element={<ChapterManagerAuth><CpDashboardDetails /></ChapterManagerAuth>} />
+        <Route path="cpchapters" element={<ChapterManagerAuth><CpChapters /></ChapterManagerAuth>} />
+        <Route path="cpchapterusers/:chapter_id" element={<ChapterManagerAuth><CpChapterUsers /></ChapterManagerAuth>} />
+        <Route path="cpprofile" element={<ChapterManagerAuth><CpProfile /></ChapterManagerAuth>} />
       </Route>
     </Routes>
   );
