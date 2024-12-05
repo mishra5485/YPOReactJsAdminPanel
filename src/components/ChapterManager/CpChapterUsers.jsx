@@ -158,10 +158,13 @@ const CpChapterUsers = () => {
     try {
       const payloadData = {
         user_id: userDeleteId,
+        chapter_manager_id: LoginData.user_id,
       };
 
       let response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/deletebyId`,
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/user/deleteUserbyChapterManager`,
         payloadData
       );
 
@@ -179,10 +182,12 @@ const CpChapterUsers = () => {
         toast.error(errorResponseMessage || "Something went wrong!", {
           style: { background: "black", color: "white" },
         });
+        SetIsDeleteModalOen(false);
       } else {
         toast.error("Network error. Please try again.", {
           style: { background: "black", color: "white" },
         });
+        SetIsDeleteModalOen(false);
       }
     }
   };
@@ -256,7 +261,6 @@ const CpChapterUsers = () => {
       const responseStatus = error.response.status;
       console.log(error);
 
-      setisLoading(false);
       if (error.response) {
         if (
           responseStatus == 404 ||
