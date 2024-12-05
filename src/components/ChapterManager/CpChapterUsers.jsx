@@ -222,6 +222,7 @@ const CpChapterUsers = () => {
       member_id: member_id,
       accessLevel: userRole,
       userName: username,
+      created_userid:LoginData.user_id
     };
 
     if (updatedChaptersArray.length > 0) {
@@ -230,7 +231,7 @@ const CpChapterUsers = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/create`,
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/createUserbyChapterManager`,
         payload
       );
       const responseMessage = response.data.message;
