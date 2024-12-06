@@ -3,6 +3,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { FaUsers, FaRegClock } from "react-icons/fa";
 import getLoginData from "../../commonfunctions/getLoginData";
+import { Link } from "react-router-dom";
 
 const CpDashboardDetails = () => {
   const LoginData = getLoginData();
@@ -88,49 +89,64 @@ const CpDashboardDetails = () => {
           dashboardData?.map((data, index) => {
             return (
               <>
-                <div key={index} className="my-6 border-t-2 first:border-none p-6">
+                <div
+                  key={index}
+                  className="my-6 border-t-2 first:border-none p-6"
+                >
                   <p className="font-semibold text-2xl text-gray-800">
                     {data.chapterName}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 p-4 mt-5 ">
                     {/* Members Card */}
-                    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
-                      <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
-                        <FaUsers size={32} color="white" />
+                    <Link
+                      to={`/cp/dashboard/cpchapterusers/${data.chapter_id}`}
+                    >
+                      <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
+                        <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
+                          <FaUsers size={32} color="white" />
+                        </div>
+                        <div className="text-lg font-semibold text-gray-700 mb-2 h-10">
+                          Members
+                        </div>
+                        <div className="text-3xl font-extrabold text-gray-900">
+                          {data.membersDataCount}
+                        </div>
                       </div>
-                      <div className="text-lg font-semibold text-gray-700 mb-2 h-10">
-                        Members
-                      </div>
-                      <div className="text-3xl font-extrabold text-gray-900">
-                        {data.membersDataCount}
-                      </div>
-                    </div>
+                    </Link>
 
                     {/* Spouse/Partners Card */}
-                    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
-                      <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
-                        <FaUsers size={32} color="white" />
+                    <Link
+                      to={`/cp/dashboard/cpchapterusers/${data.chapter_id}`}
+                    >
+                      <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
+                        <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
+                          <FaUsers size={32} color="white" />
+                        </div>
+                        <div className="text-lg font-semibold text-gray-700 mb-2">
+                          Spouse/Partners
+                        </div>
+                        <div className="text-3xl font-extrabold text-gray-900">
+                          {data.spousePartnersDataCount}
+                        </div>
                       </div>
-                      <div className="text-lg font-semibold text-gray-700 mb-2">
-                        Spouse/Partners
-                      </div>
-                      <div className="text-3xl font-extrabold text-gray-900">
-                        {data.spousePartnersDataCount}
-                      </div>
-                    </div>
+                    </Link>
 
                     {/* Pending Approvals Card */}
-                    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
-                      <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
-                        <FaRegClock size={32} color="white" />
+                    <Link
+                      to={`/cp/dashboard/cpchapterusers/${data.chapter_id}`}
+                    >
+                      <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center transform transition-transform hover:scale-105">
+                        <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
+                          <FaRegClock size={32} color="white" />
+                        </div>
+                        <div className="text-lg font-semibold text-gray-700 mb-2">
+                          Pending Approvals
+                        </div>
+                        <div className="text-3xl font-extrabold text-gray-900">
+                          {data.pendingApprovalsDataCount}
+                        </div>
                       </div>
-                      <div className="text-lg font-semibold text-gray-700 mb-2">
-                        Pending Approvals
-                      </div>
-                      <div className="text-3xl font-extrabold text-gray-900">
-                        {data.pendingApprovalsDataCount}
-                      </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </>
