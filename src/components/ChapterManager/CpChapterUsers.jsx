@@ -72,7 +72,11 @@ const CpChapterUsers = () => {
       const responseMessage = response.data.message;
 
       if (responseStatus == 200) {
-        setrecords(responseData);
+        const result = responseData.filter((data) => {
+          return data.accessLevel != AccessLevel.ChapterManager;
+        });
+
+        setrecords(result);
         setisLoading(false);
       }
     } catch (error) {
@@ -563,7 +567,9 @@ const CpChapterUsers = () => {
                                   <MdRemoveRedEye size={28} />
                                 </button>
                               </div>
-                            ) : <span className="font-bold text-xl">-</span>}
+                            ) : (
+                              <span className="font-bold text-xl">-</span>
+                            )}
                           </td>
                         </tr>
                       ))
@@ -651,26 +657,26 @@ const CpChapterUsers = () => {
                           </select>
                         </div>
 
-                          <div className="mb-4">
-                            <label
-                              htmlFor="chapter_select"
-                              className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
-                            >
-                              Chapter*
-                            </label>
-                            <Select
-                              styles={dropdownStyles}
-                              options={chaptersData.map((data) => ({
-                                value: data.chapter_id,
-                                label: data.chapterName,
-                              }))}
-                              value={selectedChapter}
-                              onChange={setSelectedChapter}
-                              placeholder="Select Chapter"
-                              isClearable
-                              isMulti
-                            />
-                          </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="chapter_select"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Chapter*
+                          </label>
+                          <Select
+                            styles={dropdownStyles}
+                            options={chaptersData.map((data) => ({
+                              value: data.chapter_id,
+                              label: data.chapterName,
+                            }))}
+                            value={selectedChapter}
+                            onChange={setSelectedChapter}
+                            placeholder="Select Chapter"
+                            isClearable
+                            isMulti
+                          />
+                        </div>
 
                         {/* Buttons */}
                         <button
