@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 
 import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
-import { IoMdDownload } from "react-icons/io";
 import getLoginData from "../../commonfunctions/getLoginData";
 import { statusStyles } from "../../commonfunctions/getStatusStyles";
 
@@ -541,28 +540,30 @@ const CpChapterUsers = () => {
                             </div>
                           </td>
 
-                          <td className="px-6 py-4">
-                            <div>
-                              <button
-                                onClick={() => {
-                                  SetIsDeleteModalOen(true),
-                                    setUserDeleteId(elem._id);
-                                }}
-                                className="text-red-500 hover:text-red-700 "
-                              >
-                                <MdDeleteForever size={28} />
-                              </button>
-                              <button
-                                onClick={() => {
-                                  SetIsUpdateUserModalOpen(true),
-                                    setModalUsername(elem.userName);
-                                  setModalUser_id(elem._id);
-                                }}
-                                className="text-blue-500 hover:text-blue-700 px-3"
-                              >
-                                <MdRemoveRedEye size={28} />
-                              </button>
-                            </div>
+                          <td className="px-6 py-4 text-center ">
+                            {elem.accessLevel != AccessLevel.ChapterManager ? (
+                              <div>
+                                <button
+                                  onClick={() => {
+                                    SetIsDeleteModalOen(true),
+                                      setUserDeleteId(elem._id);
+                                  }}
+                                  className="text-red-500 hover:text-red-700 "
+                                >
+                                  <MdDeleteForever size={28} />
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    SetIsUpdateUserModalOpen(true),
+                                      setModalUsername(elem.userName);
+                                    setModalUser_id(elem._id);
+                                  }}
+                                  className="text-blue-500 hover:text-blue-700 px-3"
+                                >
+                                  <MdRemoveRedEye size={28} />
+                                </button>
+                              </div>
+                            ) : <span className="font-bold text-xl">-</span>}
                           </td>
                         </tr>
                       ))
