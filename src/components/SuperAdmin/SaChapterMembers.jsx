@@ -684,7 +684,6 @@ const SaChapterMembers = () => {
                           </select>
                         </div>
 
-                        {userRole != AccessLevel.SuperAdmin ? (
                           <div className="mb-4">
                             <label
                               htmlFor="chapter_select"
@@ -705,7 +704,6 @@ const SaChapterMembers = () => {
                               isMulti
                             />
                           </div>
-                        ) : null}
 
                         {/* Buttons */}
                         <button

@@ -651,7 +651,6 @@ const CpChapterUsers = () => {
                           </select>
                         </div>
 
-                        {userRole != AccessLevel.SuperAdmin ? (
                           <div className="mb-4">
                             <label
                               htmlFor="chapter_select"
@@ -672,7 +671,6 @@ const CpChapterUsers = () => {
                               isMulti
                             />
                           </div>
-                        ) : null}
 
                         {/* Buttons */}
                         <button
