@@ -290,7 +290,7 @@ const SaChapters = () => {
                                     import.meta.env.VITE_REACT_APP_BASE_URL
                                   }/${elem.chapter_Logo}`}
                                   alt={elem.chapter_Name}
-                                  className="w-12 h-12 rounded-full object-cover"
+                                  className="w-14 h-14 rounded-full object-cover bg-blue-900"
                                 />
                               </div>
                             }
