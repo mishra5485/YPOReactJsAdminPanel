@@ -528,14 +528,14 @@ const SaMembers = () => {
                           </td>
 
                           <td className="px-6 py-4 text-gray-800 text-base">
-                          {elem?.updatedChapterArrayWithNames?.map(
+                            {elem?.updatedChapterArrayWithNames?.map(
                               (chapter, index) => (
                                 <p key={index}>{chapter.ChapterName},</p>
                               )
                             )}
                           </td>
                           <td className="px-6 py-4">
-                          <span
+                            <span
                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
                                 statusStyles[elem.status]?.color ||
                                 "bg-gray-500"
@@ -553,14 +553,27 @@ const SaMembers = () => {
                                 }/user/rndcard/${elem._id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
+                                className={`bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center ${
+                                  elem.status == 3
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                }`}
+                                style={{
+                                  pointerEvents:
+                                    elem.status == 3 ? "none" : "auto",
+                                }}
                               >
                                 <FaArrowUpRightFromSquare size={14} />
                               </a>
 
                               <button
                                 onClick={() => downlaodUserCard(elem._id)}
-                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
+                                className={`bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center ${
+                                  elem.status == 3
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                }`}
+                                disabled={elem.status == 3}
                               >
                                 <FaDownload size={16} />
                               </button>
@@ -678,26 +691,26 @@ const SaMembers = () => {
                           </select>
                         </div>
 
-                          <div className="mb-4">
-                            <label
-                              htmlFor="chapter_select"
-                              className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
-                            >
-                              Chapter*
-                            </label>
-                            <Select
-                              styles={dropdownStyles}
-                              options={chaptersData.map((data) => ({
-                                value: data._id,
-                                label: data.chapter_Name,
-                              }))}
-                              value={selectedChapter}
-                              onChange={setSelectedChapter}
-                              placeholder="Select Chapter"
-                              isClearable
-                              isMulti
-                            />
-                          </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="chapter_select"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Chapter*
+                          </label>
+                          <Select
+                            styles={dropdownStyles}
+                            options={chaptersData.map((data) => ({
+                              value: data._id,
+                              label: data.chapter_Name,
+                            }))}
+                            value={selectedChapter}
+                            onChange={setSelectedChapter}
+                            placeholder="Select Chapter"
+                            isClearable
+                            isMulti
+                          />
+                        </div>
 
                         {/* Buttons */}
                         <button

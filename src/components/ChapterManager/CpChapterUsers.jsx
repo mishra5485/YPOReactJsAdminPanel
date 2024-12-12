@@ -530,14 +530,27 @@ const CpChapterUsers = () => {
                                 }/user/rndcard/${elem._id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
+                                className={`bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center ${
+                                  elem.status == 3
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                }`}
+                                style={{
+                                  pointerEvents:
+                                    elem.status == 3 ? "none" : "auto",
+                                }}
                               >
                                 <FaArrowUpRightFromSquare size={14} />
                               </a>
 
                               <button
                                 onClick={() => downlaodUserCard(elem._id)}
-                                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center"
+                                className={`bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md flex items-center justify-center ${
+                                  elem.status == 3
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                }`}
+                                disabled={elem.status == 3}
                               >
                                 <FaDownload size={16} />
                               </button>
