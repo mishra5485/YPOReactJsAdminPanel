@@ -42,22 +42,22 @@ const Login = () => {
           data?.data || {};
 
         if (status == 200) {
-          localStorage.setItem("loginData", JSON.stringify(data?.data));
           const route =
-            responseUserRole == AccessLevel.SuperAdmin
-              ? "/sp/dashboard/sahome"
-              : responseUserRole == AccessLevel.ChapterManager
-              ? "/cp/dashboard/cphome"
-              : null;
-
+          responseUserRole == AccessLevel.SuperAdmin
+          ? "/sp/dashboard/sahome"
+          : responseUserRole == AccessLevel.ChapterManager
+          ? "/cp/dashboard/cphome"
+          : null;
+          
           if (route) {
+            localStorage.setItem("loginData", JSON.stringify(data?.data));
             navigate(route);
             resetForm();
             toast.success(responseMessage || "Login successful", {
               style: { background: "green", color: "white" },
             });
           } else {
-            toast.error("Cannot access the Dashboard");
+            toast.error("Invalid MemberId or Password");
           }
         }
       } catch (error) {
