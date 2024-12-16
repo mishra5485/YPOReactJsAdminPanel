@@ -8,8 +8,11 @@ import { MdDeleteForever, MdRemoveRedEye, MdAdd } from "react-icons/md";
 import { FaArrowUpRightFromSquare, FaDownload } from "react-icons/fa6";
 import { IoMdDownload } from "react-icons/io";
 import { statusStyles } from "../../commonfunctions/getStatusStyles";
+import getLoginData from "../../commonfunctions/getLoginData";
 
 const SaAdminsTable = () => {
+  const loggedInUserData = getLoginData();
+
   const [records, setrecords] = useState([]);
   const [filteredData, setFilteredData] = useState(records);
 
@@ -24,8 +27,12 @@ const SaAdminsTable = () => {
   const [selectedChapter, setSelectedChapter] = useState([]);
 
   const [userDeleteId, setUserDeleteId] = useState("");
-  const [modalUsername, setModalUsername] = useState("");
-  const [modalUser_id, setModalUser_id] = useState("");
+  const [updateModalUser_id, setUpdateModalUser_id] = useState("");
+  const [updateModalUsername, setUpdateModalUsername] = useState("");
+  const [updateModalMember_id, setUpdateModalMember_id] = useState("");
+  const [updateModalRole, setUpdateModalRole] = useState("");
+  const [updateModalTitleName, setUpdateModalTitleName] = useState("");
+  const [updateModalChapter, setUpdateModalChapter] = useState([]);
 
   const [isLoading, setisLoading] = useState(false);
   const [isCreateUserModalOpen, SetIsCreateUserModalOpen] = useState(false);
@@ -44,13 +51,8 @@ const SaAdminsTable = () => {
 
   useEffect(() => {
     getAllSuperAdmins();
+    getAllDropdownChapters();
   }, []);
-
-  useEffect(() => {
-    if (isCreateUserModalOpen) {
-      getAllDropdownChapters();
-    }
-  }, [isCreateUserModalOpen]);
 
   const getAllSuperAdmins = async () => {
     toast.dismiss();
@@ -236,7 +238,7 @@ const SaAdminsTable = () => {
       payload.Alias = titleName;
     }
 
-    console.log(payload)
+    console.log(payload);
 
     try {
       const response = await axios.post(
@@ -287,7 +289,7 @@ const SaAdminsTable = () => {
   const handleUserUpdateSubmit = async (e) => {
     e.preventDefault();
 
-    if (!modalUser_id) {
+    if (!updateModalUser_id) {
       toast.error(`Please Fill all feilds`, {
         style: {
           background: "black",
@@ -298,8 +300,13 @@ const SaAdminsTable = () => {
     }
 
     const payload = {
-      user_id: modalUser_id,
-      userName: modalUsername,
+      user_id: updateModalUser_id,
+      userName: updateModalUsername,
+      accessLevel: updateModalRole,
+      Alias: updateModalTitleName,
+      Chapters: updateModalChapter,
+      loggedInUser_Id: loggedInUserData.user_id,
+      loggedInUser_Role: loggedInUserData.Role,
     };
 
     try {
@@ -309,11 +316,15 @@ const SaAdminsTable = () => {
       );
       const responseMessage = response.data.message;
 
-      toast.success(responseMessage || "User Created Successfully", {
+      toast.success(responseMessage || "User updated Successfully", {
         style: { background: "green", color: "white" },
       });
-      setModalUser_id("");
-      setUserRole(null);
+      setUpdateModalUser_id("");
+      setUpdateModalUsername("");
+      setUpdateModalMember_id("");
+      setUpdateModalRole("");
+      setUpdateModalTitleName("");
+      setUpdateModalChapter([]);
       getAllSuperAdmins();
       SetIsUpdateUserModalOpen(false);
     } catch (error) {
@@ -609,8 +620,12 @@ const SaAdminsTable = () => {
                               <button
                                 onClick={() => {
                                   SetIsUpdateUserModalOpen(true),
-                                    setModalUsername(elem.userName);
-                                  setModalUser_id(elem._id);
+                                    setUpdateModalUser_id(elem._id);
+                                  setUpdateModalUsername(elem.userName);
+                                  setUpdateModalMember_id(elem.member_id);
+                                  setUpdateModalRole(elem.accessLevel);
+                                  setUpdateModalTitleName(elem.Alias);
+                                  setUpdateModalChapter(elem.Chapters);
                                 }}
                                 className="text-blue-500 hover:text-blue-700 px-3"
                               >
@@ -788,22 +803,137 @@ const SaAdminsTable = () => {
                           Update User
                         </h3>
 
+                        {/* Member Id Input */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="update_memeber_id"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Member Id
+                          </label>
+                          <input
+                            type="text"
+                            id="update_memeber_id"
+                            value={updateModalMember_id}
+                            onChange={(e) =>
+                              setUpdateModalMember_id(e.target.value)
+                            }
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Enter Member Id"
+                            disabled
+                          />
+                        </div>
+
                         {/* Name Input */}
                         <div className="mb-4">
                           <label
                             htmlFor="modalusername"
                             className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
                           >
-                            Name*
+                            Name
                           </label>
                           <input
                             type="text"
                             id="modalusername"
-                            value={modalUsername}
-                            onChange={(e) => setModalUsername(e.target.value)}
+                            value={updateModalUsername}
+                            onChange={(e) =>
+                              setUpdateModalUsername(e.target.value)
+                            }
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                             placeholder="Enter Name"
                             required
+                          />
+                        </div>
+
+                        {/* User Role */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="userRole"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Role*
+                          </label>
+                          <select
+                            className="bg-gray-100 border border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
+                            onChange={(e) => {
+                              setUpdateModalRole(e.target.value);
+                            }}
+                            defaultValue="select_role"
+                            value={updateModalRole}
+                          >
+                            <option value="select_role" disabled>
+                              Select Role
+                            </option>
+                            <option value="1">SuperAdmin</option>
+                            <option value="2">Member</option>
+                            <option value="3">Spouse/Partner</option>
+                            <option value="4">Chapter Manager</option>
+                            <option value="5">Others</option>
+                          </select>
+                        </div>
+
+                        {/* Title Name */}
+                        {updateModalRole == AccessLevel.Others ||
+                        updateModalRole == AccessLevel.SuperAdmin ? (
+                          <div className="mb-4">
+                            <label
+                              htmlFor="titlename"
+                              className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                            >
+                              Title Name
+                            </label>
+                            <input
+                              type="text"
+                              id="titlename"
+                              value={updateModalTitleName}
+                              onChange={(e) =>
+                                setUpdateModalTitleName(e.target.value)
+                              }
+                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                              placeholder="Enter Title Name"
+                            />
+                          </div>
+                        ) : null}
+
+                        {/* Chapters Selection */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="chapter_select"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                          >
+                            Chapter*
+                          </label>
+                          <Select
+                            styles={dropdownStyles}
+                            options={chaptersData.map((data) => ({
+                              value: data._id,
+                              label: data.chapter_Name,
+                              isSelected: updateModalChapter.some(
+                                (assigned) => assigned.chapter_id === data._id
+                              ),
+                            }))}
+                            value={chaptersData
+                              .filter((data) =>
+                                updateModalChapter.some(
+                                  (assigned) => assigned.chapter_id === data._id
+                                )
+                              )
+                              .map((data) => ({
+                                value: data._id,
+                                label: data.chapter_Name,
+                              }))}
+                            onChange={(selectedOptions) => {
+                              setUpdateModalChapter(
+                                selectedOptions
+                                  ? selectedOptions.map((option) => ({
+                                      chapter_id: option.value,
+                                    }))
+                                  : []
+                              );
+                            }}
+                            placeholder="Select Chapter"
+                            isClearable
+                            isMulti
                           />
                         </div>
 

@@ -105,7 +105,7 @@ const CpDashboardDetails = () => {
                         <div className="mb-4 bg-amber-500 p-3 border border-gray-200 rounded-full shadow-md">
                           <FaUsers size={32} color="white" />
                         </div>
-                        <div className="text-lg font-semibold text-gray-700 mb-2 h-10">
+                        <div className="text-lg font-semibold text-gray-700 mb-2">
                           Members
                         </div>
                         <div className="text-3xl font-extrabold text-gray-900">
