@@ -804,11 +804,8 @@ const CpChapterUsers = () => {
                             <option value="select_role" disabled>
                               Select Role
                             </option>
-                            <option value="1">SuperAdmin</option>
                             <option value="2">Member</option>
                             <option value="3">Spouse/Partner</option>
-                            <option value="4">Chapter Manager</option>
-                            <option value="5">Others</option>
                           </select>
                         </div>
 
