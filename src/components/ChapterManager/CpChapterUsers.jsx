@@ -513,11 +513,13 @@ const CpChapterUsers = () => {
                           </td>
 
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.updatedChapterArrayWithNames?.map(
-                              (chapter, index) => (
-                                <p key={index}>{chapter.ChapterName},</p>
+                            {elem?.updatedChapterArrayWithNames
+                              ?.filter(
+                                (chapter) => chapter.chapter_id == chapter_id
                               )
-                            )}
+                              .map((chapter, index) => (
+                                <p key={index}>{chapter.ChapterName},</p>
+                              ))}
                           </td>
                           <td className="px-6 py-4">
                             <span
