@@ -518,7 +518,7 @@ const CpChapterUsers = () => {
                                 (chapter) => chapter.chapter_id == chapter_id
                               )
                               .map((chapter, index) => (
-                                <p key={index}>{chapter.ChapterName},</p>
+                                <p key={index}>{chapter.ChapterName}</p>
                               ))}
                           </td>
                           <td className="px-6 py-4">
