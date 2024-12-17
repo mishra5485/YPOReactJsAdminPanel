@@ -244,20 +244,38 @@ const SaRequests = () => {
                                   : "bg-gray-500" 
                               }`}
                             >
-                              {elem.Action}
+                              {elem?.Action}
                             </span>
                           </th>
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem.member_id}
+                            {elem?.member_id}
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem.userName}
+                            {elem?.userName}
+                            {elem?.tobeUpdatedName?(
+                              <>
+                              <hr className="border border-gray-300" />
+                              {elem.tobeUpdatedName}
+                              </>
+                            )
+                              :null}
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem.Role}
+                            {elem?.Role}
+                            {elem?.tobeUpdatedRole?(
+                              <>
+                              <hr className="border border-gray-300" />
+                              {elem.tobeUpdatedRole}
+                              </>
+                            )
+                              :null}
                           </td>
                           <td className="px-6 py-4 text-gray-800 text-base">
                             {elem?.Chapters?.map((chapter, index) => (
+                              <p key={index}>{chapter.ChapterName},</p>
+                            ))}
+                            <hr className="border border-gray-300" />
+                            {elem?.tobeupdatedChapterswithNames?.map((chapter, index) => (
                               <p key={index}>{chapter.ChapterName},</p>
                             ))}
                           </td>
