@@ -22,6 +22,7 @@ const SaMembers = () => {
 
   const [member_id, setMember_id] = useState("");
   const [username, setUsername] = useState("");
+  const [titleName, setTitleName] = useState("");
   const [userRole, setUserRole] = useState();
   const [selectedChapter, setSelectedChapter] = useState([]);
 
@@ -190,6 +191,18 @@ const SaMembers = () => {
       return;
     }
 
+    if (userRole == AccessLevel.Others || userRole == AccessLevel.SuperAdmin) {
+      if (!titleName) {
+        toast.error(`Please provide title name`, {
+          style: {
+            background: "black",
+            color: "white",
+          },
+        });
+        return;
+      }
+    }
+
     if (userRole != AccessLevel.SuperAdmin) {
       if (selectedChapter.length == 0) {
         toast.error(`Please select chapter(s)`, {
@@ -217,6 +230,10 @@ const SaMembers = () => {
       userName: username,
     };
 
+    if (userRole == AccessLevel.Others || userRole == AccessLevel.SuperAdmin) {
+      payload.Alias = titleName;
+    }
+
     if (updatedChaptersArray.length > 0) {
       payload.Chapters = updatedChaptersArray;
     }
@@ -233,6 +250,7 @@ const SaMembers = () => {
       });
       setMember_id("");
       setUsername("");
+      setTitleName("");
       setUserRole(null);
       setSelectedChapter([]);
 
@@ -699,13 +717,36 @@ const SaMembers = () => {
                             <option value="select_role" disabled>
                               Select Role
                             </option>
-                            <option value="1">Regional Manager</option>
+                            <option value="1">SuperAdmin</option>
                             <option value="2">Member</option>
                             <option value="3">Spouse/Partner</option>
                             <option value="4">Chapter Manager</option>
+                            <option value="5">Others</option>
                           </select>
                         </div>
 
+                        {/* Title Name */}
+                        {userRole == AccessLevel.Others ||
+                        userRole == AccessLevel.SuperAdmin ? (
+                          <div className="mb-4">
+                            <label
+                              htmlFor="titlename"
+                              className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-left"
+                            >
+                              Title Name
+                            </label>
+                            <input
+                              type="text"
+                              id="titlename"
+                              value={titleName}
+                              onChange={(e) => setTitleName(e.target.value)}
+                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                              placeholder="Enter Title Name"
+                            />
+                          </div>
+                        ) : null}
+
+                        {/* Chapters Selection */}
                         <div className="mb-4">
                           <label
                             htmlFor="chapter_select"
