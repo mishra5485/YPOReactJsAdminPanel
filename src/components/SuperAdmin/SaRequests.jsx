@@ -223,79 +223,118 @@ const SaRequests = () => {
                     ) : (
                       filteredData.map((elem, index) => (
                         <tr
-                          className=" border-b dark:border-gray-700"
+                          className="border-b dark:border-gray-700"
                           key={index}
                         >
+                          {/* Serial Number */}
                           <td className="px-6 py-4 font-bold text-base">
                             {index + 1}
                           </td>
-                          <th
-                            scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                          >
+
+                          {/* Action */}
+                          <td className="px-6 py-4">
                             <span
                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
-                                elem.Action == "Create"
+                                elem.Action === "Create"
                                   ? "bg-green-500"
-                                  : elem.Action == "Delete"
+                                  : elem.Action === "Delete"
                                   ? "bg-red-500"
-                                  : elem.Action == "Update"
+                                  : elem.Action === "Update"
                                   ? "bg-blue-500"
-                                  : "bg-gray-500" 
+                                  : "bg-gray-500"
                               }`}
                             >
                               {elem?.Action}
                             </span>
-                          </th>
+                          </td>
+
+                          {/* Member ID */}
                           <td className="px-6 py-4 text-gray-800 text-base">
                             {elem?.member_id}
                           </td>
+
+                          {/* User Name */}
                           <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.userName}
-                            {elem?.tobeUpdatedName?(
-                              <>
-                              <hr className="border border-gray-300" />
-                              {elem.tobeUpdatedName}
-                              </>
-                            )
-                              :null}
-                          </td>
-                          <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.Role}
-                            {elem?.tobeUpdatedRole?(
-                              <>
-                              <hr className="border border-gray-300" />
-                              {elem.tobeUpdatedRole}
-                              </>
-                            )
-                              :null}
-                          </td>
-                          <td className="px-6 py-4 text-gray-800 text-base">
-                            {elem?.Chapters?.map((chapter, index) => (
-                              <p key={index}>{chapter.ChapterName},</p>
-                            ))}
-                            <hr className="border border-gray-300" />
-                            {elem?.tobeupdatedChapterswithNames?.map((chapter, index) => (
-                              <p key={index}>{chapter.ChapterName},</p>
-                            ))}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
                             <div>
+                              <p>
+                                <span className="font-semibold">Previous:</span>{" "}
+                                {elem?.userName || "N/A"}
+                              </p>
+                              {elem?.tobeUpdatedName && (
+                                <p>
+                                  <span className="font-semibold">
+                                    Updated:
+                                  </span>{" "}
+                                  {elem.tobeUpdatedName}
+                                </p>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Role */}
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            <div>
+                              <p>
+                                <span className="font-semibold">Previous:</span>{" "}
+                                {elem?.Role || "N/A"}
+                              </p>
+                              {elem?.tobeUpdatedRole && (
+                                <p>
+                                  <span className="font-semibold">
+                                    Updated:
+                                  </span>{" "}
+                                  {elem.tobeUpdatedRole}
+                                </p>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Chapters */}
+                          <td className="px-6 py-4 text-gray-800 text-base">
+                            <div>
+                              <p>
+                                <span className="font-semibold">Previous:</span>
+                              </p>
+                              {elem?.Chapters?.map((chapter, index) => (
+                                <p key={index}>{chapter.ChapterName}</p>
+                              )) || <p>N/A</p>}
+                              {elem?.tobeupdatedChapterswithNames?.length >
+                                0 && (
+                                <>
+                                  <hr className="my-2 border-gray-300" />
+                                  <p>
+                                    <span className="font-semibold">
+                                      Updated:
+                                    </span>
+                                  </p>
+                                  {elem?.tobeupdatedChapterswithNames?.map(
+                                    (chapter, index) => (
+                                      <p key={index}>{chapter.ChapterName}</p>
+                                    )
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
                               <button
                                 onClick={() => {
-                                  setIsApproveModalOpen(true),
-                                    setUserId(elem._id);
+                                  setIsApproveModalOpen(true);
+                                  setUserId(elem._id);
                                 }}
-                                className="text-red-500 hover:text-red-700 "
+                                className="text-green-500 hover:text-green-700"
                               >
                                 <MdDone size={28} />
                               </button>
                               <button
                                 onClick={() => {
-                                  setIsRejectModalOpen(true),
-                                    setUserId(elem._id);
+                                  setIsRejectModalOpen(true);
+                                  setUserId(elem._id);
                                 }}
-                                className="text-blue-500 hover:text-blue-700 px-3"
+                                className="text-red-500 hover:text-red-700"
                               >
                                 <IoCloseSharp size={28} />
                               </button>
