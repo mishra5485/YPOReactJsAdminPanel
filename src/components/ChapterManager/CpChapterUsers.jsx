@@ -304,8 +304,8 @@ const CpChapterUsers = () => {
       accessLevel: updateModalRole,
       Alias: updateModalTitleName,
       Chapters: updateModalChapter,
-      loggedInUser_Id: loggedInUserData.user_id,
-      loggedInUser_Role: loggedInUserData.Role,
+      loggedInUser_Id: LoginData.user_id,
+      loggedInUser_Role: LoginData.Role,
     };
 
     try {
@@ -774,14 +774,15 @@ const CpChapterUsers = () => {
                             type="text"
                             id="modalusername"
                             value={updateModalUsername}
-                            onChange={(e) => setUpdateModalUsername(e.target.value)}
+                            onChange={(e) =>
+                              setUpdateModalUsername(e.target.value)
+                            }
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                             placeholder="Enter Name"
                             required
                           />
                         </div>
 
-                        
                         {/* User Role */}
                         <div className="mb-4">
                           <label
@@ -843,21 +844,23 @@ const CpChapterUsers = () => {
                           <Select
                             styles={dropdownStyles}
                             options={chaptersData.map((data) => ({
-                              value: data._id,
-                              label: data.chapter_Name,
+                              value: data.chapter_id,
+                              label: data.chapterName,
                               isSelected: updateModalChapter.some(
-                                (assigned) => assigned.chapter_id === data._id
+                                (assigned) =>
+                                  assigned.chapter_id == data.chapter_id
                               ),
                             }))}
                             value={chaptersData
                               .filter((data) =>
                                 updateModalChapter.some(
-                                  (assigned) => assigned.chapter_id === data._id
+                                  (assigned) =>
+                                    assigned.chapter_id == data.chapter_id
                                 )
                               )
                               .map((data) => ({
-                                value: data._id,
-                                label: data.chapter_Name,
+                                value: data.chapter_id,
+                                label: data.chapterName,
                               }))}
                             onChange={(selectedOptions) => {
                               setUpdateModalChapter(
