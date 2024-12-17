@@ -203,7 +203,7 @@ const SaSpousePartners = () => {
       }
     }
 
-    if (userRole != AccessLevel.SuperAdmin) {
+    if (userRole != AccessLevel.SuperAdmin && userRole != AccessLevel.Others) {
       if (selectedChapter.length == 0) {
         toast.error(`Please select chapter(s)`, {
           style: {
