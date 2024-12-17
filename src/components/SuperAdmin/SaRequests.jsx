@@ -76,7 +76,7 @@ const SaRequests = () => {
     try {
       const payloadData = {
         user_id: userId,
-        superAdmin_id:LoginData.user_id
+        superAdmin_id: LoginData.user_id,
       };
 
       let response = await axios.post(
@@ -112,7 +112,7 @@ const SaRequests = () => {
     try {
       const payloadData = {
         user_id: userId,
-        superAdmin_id:LoginData.user_id
+        superAdmin_id: LoginData.user_id,
       };
 
       let response = await axios.post(
@@ -237,7 +237,11 @@ const SaRequests = () => {
                               className={`inline-block px-3 py-1 text-white font-semibold rounded-full ${
                                 elem.Action == "Create"
                                   ? "bg-green-500"
-                                  : "bg-red-500"
+                                  : elem.Action == "Delete"
+                                  ? "bg-red-500"
+                                  : elem.Action == "Update"
+                                  ? "bg-blue-500"
+                                  : "bg-gray-500" 
                               }`}
                             >
                               {elem.Action}
@@ -271,7 +275,7 @@ const SaRequests = () => {
                               <button
                                 onClick={() => {
                                   setIsRejectModalOpen(true),
-                                  setUserId(elem._id);
+                                    setUserId(elem._id);
                                 }}
                                 className="text-blue-500 hover:text-blue-700 px-3"
                               >
@@ -349,8 +353,7 @@ const SaRequests = () => {
                         </button>
                         <button
                           onClick={() => {
-                            setIsApproveModalOpen(false),
-                              setUserId("");
+                            setIsApproveModalOpen(false), setUserId("");
                           }}
                           className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         >
@@ -425,8 +428,7 @@ const SaRequests = () => {
                         </button>
                         <button
                           onClick={() => {
-                            setIsRejectModalOpen(false),
-                              setUserId("");
+                            setIsRejectModalOpen(false), setUserId("");
                           }}
                           className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         >
