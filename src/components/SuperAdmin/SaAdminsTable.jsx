@@ -510,7 +510,7 @@ const SaAdminsTable = () => {
                         #
                       </th>
                       <th scope="col" className="px-6 py-3 text-base">
-                        MemberId
+                        Member Id
                       </th>
                       <th scope="col" className="px-6 py-3 text-base">
                         Role

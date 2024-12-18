@@ -461,7 +461,7 @@ const CpChapterUsers = () => {
                   <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3 text-base">
-                        MemberId
+                        Member Id
                       </th>
                       <th scope="col" className="px-6 py-3 text-base">
                         Role
